@@ -18,8 +18,6 @@ package core
 
 import (
 	"log"
-	"os"
-	"path/filepath"
 	"plugin"
 
 	"github.com/ethereum/go-ethereum/common"
@@ -32,14 +30,17 @@ import (
 	"github.com/ethereum/go-ethereum/params"
 )
 
-var UseSputnikVM = "false"
+// SputnikVMPlugin is the path to a valid .so SputnikVM plugin static object.
+// If this variable is not configured (via -ldflags) then the standard ApplyTransaction function
+// using the adjacent go EVM is used.
+var SputnikVMPlugin = "DNE" // Does Not Exist
+
 var ApplyTxFn func(config *params.ChainConfig, bc ChainContext, author *common.Address, gp *GasPool, statedb *state.StateDB, header *types.Header, tx *types.Transaction, usedGas *uint64, cfg vm.Config) (*types.Receipt, uint64, error)
 
 func init() {
 	ApplyTxFn = applyTransaction
-	if UseSputnikVM == "true" {
-		pluginPath := filepath.Join(os.Getenv("GOPATH"), "src", "github.com", "ethereum", "go-ethereum", "plugins", "go_sputnikvm_plugin.so")
-		p, err := plugin.Open(pluginPath)
+	if SputnikVMPlugin != "DNE" {
+		p, err := plugin.Open(SputnikVMPlugin)
 		if err != nil {
 			log.Fatal(err)
 		}
