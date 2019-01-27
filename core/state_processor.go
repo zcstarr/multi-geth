@@ -17,15 +17,44 @@
 package core
 
 import (
+	"log"
+	"os"
+	"path/filepath"
+	"plugin"
+
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/consensus"
 	"github.com/ethereum/go-ethereum/consensus/misc"
 	"github.com/ethereum/go-ethereum/core/state"
 	"github.com/ethereum/go-ethereum/core/types"
 	"github.com/ethereum/go-ethereum/core/vm"
-	"github.com/ethereum/go-ethereum/crypto"
 	"github.com/ethereum/go-ethereum/params"
 )
+
+var UseSputnikVM = "false"
+var SVMApplyTxFn func(config *params.ChainConfig, bc ChainContext, author *common.Address, gp *GasPool, statedb *state.StateDB, header *types.Header, tx *types.Transaction, usedGas *uint64, cfg vm.Config) (*types.Receipt, uint64, error)
+var ETHApplyTxFn func(config *params.ChainConfig, bc ChainContext, author *common.Address, gp *GasPool, statedb *state.StateDB, header *types.Header, tx *types.Transaction, usedGas *uint64, cfg vm.Config) (*types.Receipt, uint64, error)
+
+func init() {
+	if UseSputnikVM == "true" {
+		pluginPath := filepath.Join(os.Getenv("GOPATH"), "src", "github.com", "ethereum", "go-ethereum", "plugins", "go_sputnikvm_plugin.so")
+		p, err := plugin.Open(pluginPath)
+		if err != nil {
+			log.Fatal(err)
+		}
+		sym, err := p.Lookup("ApplySputnikTransaction")
+		if err != nil {
+			log.Fatal(err)
+		}
+		SVMApplyTxFn = sym.(func(config *params.ChainConfig, bc ChainContext, author *common.Address, gp *GasPool, statedb *state.StateDB, header *types.Header, tx *types.Transaction, usedGas *uint64, cfg vm.Config) (*types.Receipt, uint64, error))
+
+		sym, err = p.Lookup("ApplyEFTransaction")
+		if err != nil {
+			log.Fatal(err)
+		}
+		ETHApplyTxFn = sym.(func(config *params.ChainConfig, bc ChainContext, author *common.Address, gp *GasPool, statedb *state.StateDB, header *types.Header, tx *types.Transaction, usedGas *uint64, cfg vm.Config) (*types.Receipt, uint64, error))
+	}
+}
 
 // StateProcessor is a basic Processor, which takes care of transitioning
 // state from one point to another.
@@ -86,41 +115,48 @@ func (p *StateProcessor) Process(block *types.Block, statedb *state.StateDB, cfg
 // for the transaction, gas used and an error if the transaction failed,
 // indicating the block was invalid.
 func ApplyTransaction(config *params.ChainConfig, bc ChainContext, author *common.Address, gp *GasPool, statedb *state.StateDB, header *types.Header, tx *types.Transaction, usedGas *uint64, cfg vm.Config) (*types.Receipt, uint64, error) {
-	msg, err := tx.AsMessage(types.MakeSigner(config, header.Number))
-	if err != nil {
-		return nil, 0, err
-	}
-	// Create a new context to be used in the EVM environment
-	context := NewEVMContext(msg, header, bc, author)
-	// Create a new environment which holds all relevant information
-	// about the transaction and calling mechanisms.
-	vmenv := vm.NewEVM(context, statedb, config, cfg)
-	// Apply the transaction to the current state (included in the env)
-	_, gas, failed, err := ApplyMessage(vmenv, msg, gp)
-	if err != nil {
-		return nil, 0, err
-	}
-	// Update the state with pending changes
-	var root []byte
-	if config.IsEIP658F(header.Number) {
-		statedb.Finalise(true)
+
+	if UseSputnikVM == "true" {
+		return SVMApplyTxFn(config, bc, author, gp, statedb, header, tx, usedGas, cfg)
 	} else {
-		root = statedb.IntermediateRoot(config.IsEIP161F(header.Number)).Bytes()
+		return ETHApplyTxFn(config, bc, author, gp, statedb, header, tx, usedGas, cfg)
 	}
-	*usedGas += gas
 
-	// Create a new receipt for the transaction, storing the intermediate root and gas used by the tx
-	// based on the eip phase, we're passing whether the root touch-delete accounts.
-	receipt := types.NewReceipt(root, failed, *usedGas)
-	receipt.TxHash = tx.Hash()
-	receipt.GasUsed = gas
-	// if the transaction created a contract, store the creation address in the receipt.
-	if msg.To() == nil {
-		receipt.ContractAddress = crypto.CreateAddress(vmenv.Context.Origin, tx.Nonce())
-	}
-	// Set the receipt logs and create a bloom for filtering
-	receipt.Logs = statedb.GetLogs(tx.Hash())
-	receipt.Bloom = types.CreateBloom(types.Receipts{receipt})
+	// msg, err := tx.AsMessage(types.MakeSigner(config, header.Number))
+	// if err != nil {
+	// 	return nil, 0, err
+	// }
+	// // Create a new context to be used in the EVM environment
+	// context := NewEVMContext(msg, header, bc, author)
+	// // Create a new environment which holds all relevant information
+	// // about the transaction and calling mechanisms.
+	// vmenv := vm.NewEVM(context, statedb, config, cfg)
+	// // Apply the transaction to the current state (included in the env)
+	// _, gas, failed, err := ApplyMessage(vmenv, msg, gp)
+	// if err != nil {
+	// 	return nil, 0, err
+	// }
+	// // Update the state with pending changes
+	// var root []byte
+	// if config.IsEIP658F(header.Number) {
+	// 	statedb.Finalise(true)
+	// } else {
+	// 	root = statedb.IntermediateRoot(config.IsEIP161F(header.Number)).Bytes()
+	// }
+	// *usedGas += gas
 
-	return receipt, gas, err
+	// // Create a new receipt for the transaction, storing the intermediate root and gas used by the tx
+	// // based on the eip phase, we're passing whether the root touch-delete accounts.
+	// receipt := types.NewReceipt(root, failed, *usedGas)
+	// receipt.TxHash = tx.Hash()
+	// receipt.GasUsed = gas
+	// // if the transaction created a contract, store the creation address in the receipt.
+	// if msg.To() == nil {
+	// 	receipt.ContractAddress = crypto.CreateAddress(vmenv.Context.Origin, tx.Nonce())
+	// }
+	// // Set the receipt logs and create a bloom for filtering
+	// receipt.Logs = statedb.GetLogs(tx.Hash())
+	// receipt.Bloom = types.CreateBloom(types.Receipts{receipt})
+
+	// return receipt, gas, err
 }
