@@ -17,40 +17,26 @@
 package core
 
 import (
-	"log"
-	"plugin"
+	"math/big"
 
+	"github.com/etclabscore/sputnikvm-ffi/go/sputnikvm"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/consensus"
 	"github.com/ethereum/go-ethereum/consensus/misc"
+	"github.com/ethereum/go-ethereum/core"
 	"github.com/ethereum/go-ethereum/core/state"
 	"github.com/ethereum/go-ethereum/core/types"
 	"github.com/ethereum/go-ethereum/core/vm"
 	"github.com/ethereum/go-ethereum/crypto"
 	"github.com/ethereum/go-ethereum/params"
+	ecc "github.com/ethereumclassic/go-ethereum/common"
 )
 
-// SputnikVMPlugin is the path to a valid .so SputnikVM plugin static object.
-// If this variable is not configured (via -ldflags) then the standard ApplyTransaction function
-// using the adjacent go EVM is used.
-var SputnikVMPlugin = "DNE" // Does Not Exist
-
-var ApplyTxFn func(config *params.ChainConfig, bc ChainContext, author *common.Address, gp *GasPool, statedb *state.StateDB, header *types.Header, tx *types.Transaction, usedGas *uint64, cfg vm.Config) (*types.Receipt, uint64, error)
-
-func init() {
-	ApplyTxFn = applyTransaction
-	if SputnikVMPlugin != "DNE" {
-		p, err := plugin.Open(SputnikVMPlugin)
-		if err != nil {
-			log.Fatal(err)
-		}
-		sym, err := p.Lookup("ApplySputnikTransaction")
-		if err != nil {
-			log.Fatal(err)
-		}
-		ApplyTxFn = sym.(func(config *params.ChainConfig, bc ChainContext, author *common.Address, gp *GasPool, statedb *state.StateDB, header *types.Header, tx *types.Transaction, usedGas *uint64, cfg vm.Config) (*types.Receipt, uint64, error))
-	}
-}
+// // SputnikVMPlugin is the path to a valid .so SputnikVM plugin static object.
+// // If this variable is not configured (via -ldflags) then the standard ApplyTransaction function
+// // using the adjacent go EVM is used.
+// var SputnikVMPlugin = "" // Does Not Exist
+var UseSputnikVM = false
 
 // StateProcessor is a basic Processor, which takes care of transitioning
 // state from one point to another.
@@ -111,7 +97,10 @@ func (p *StateProcessor) Process(block *types.Block, statedb *state.StateDB, cfg
 // for the transaction, gas used and an error if the transaction failed,
 // indicating the block was invalid.
 func ApplyTransaction(config *params.ChainConfig, bc ChainContext, author *common.Address, gp *GasPool, statedb *state.StateDB, header *types.Header, tx *types.Transaction, usedGas *uint64, cfg vm.Config) (*types.Receipt, uint64, error) {
-	return ApplyTxFn(config, bc, author, gp, statedb, header, tx, usedGas, cfg)
+	if UseSputnikVM {
+		return ApplySputnikTransaction(config, bc, author, gp, statedb, header, tx, usedGas, cfg)
+	}
+	return applyTransaction(config, bc, author, gp, statedb, header, tx, usedGas, cfg)
 }
 
 // applyTransaction is the standard transaction application function, using the built in go evm.
@@ -154,4 +143,172 @@ func applyTransaction(config *params.ChainConfig, bc ChainContext, author *commo
 
 	return receipt, gas, err
 
+}
+func ApplySputnikTransaction(config *params.ChainConfig, bc core.ChainContext, author *common.Address, gp *core.GasPool, statedb *state.StateDB, header *types.Header, tx *types.Transaction, usedGas *uint64, cfg vm.Config) (*types.Receipt, uint64, error) {
+	asClassicAddress := func(a common.Address) ecc.Address {
+		return ecc.BytesToAddress(a.Bytes())
+	}
+
+	asEthAddress := func(a ecc.Address) common.Address {
+		return common.BytesToAddress(a.Bytes())
+	}
+
+	msg, err := tx.AsMessage(types.MakeSigner(config, header.Number))
+	if err != nil {
+		return nil, 0, err
+	}
+	addr := ecc.BytesToAddress(tx.To().Bytes())
+	vmtx := sputnikvm.Transaction{
+		Caller:   asClassicAddress(msg.From()),
+		GasPrice: tx.GasPrice(),
+		GasLimit: new(big.Int).SetUint64(tx.Gas()),
+		Address:  &addr,
+		Value:    tx.Value(),
+		Input:    tx.Data(),
+		Nonce:    new(big.Int).SetUint64(tx.Nonce()),
+	}
+	vmheader := sputnikvm.HeaderParams{
+		Beneficiary: asClassicAddress(header.Coinbase),
+		Timestamp:   header.Time.Uint64(),
+		Number:      header.Number,
+		Difficulty:  header.Difficulty,
+		GasLimit:    new(big.Int).SetUint64(header.GasLimit),
+	}
+	currentNumber := header.Number
+
+	// Get SputnikVM's corresponding chain config.
+	// TODO: handle chains that are not networkid=1 (ETH main), eg testnets, custom chains with custom state staring nonces
+	var vm *sputnikvm.VM
+	if config.IsEIP160F(currentNumber) {
+		vm = sputnikvm.NewEIP160(&vmtx, &vmheader)
+	} else if config.IsEIP150(currentNumber) {
+		vm = sputnikvm.NewEIP150(&vmtx, &vmheader)
+	} else if config.IsHomestead(currentNumber) {
+		vm = sputnikvm.NewHomestead(&vmtx, &vmheader)
+	} else {
+		vm = sputnikvm.NewFrontier(&vmtx, &vmheader)
+	}
+
+OUTER:
+	for {
+		ret := vm.Fire()
+		switch ret.Typ() {
+		case sputnikvm.RequireNone:
+			break OUTER
+		case sputnikvm.RequireAccount:
+			address := ret.Address()
+			ethAddress := asEthAddress(address)
+			if statedb.Exist(ethAddress) {
+				vm.CommitAccount(address, new(big.Int).SetUint64(statedb.GetNonce(ethAddress)),
+					statedb.GetBalance(ethAddress), statedb.GetCode(ethAddress))
+				break
+			}
+			vm.CommitNonexist(address)
+		case sputnikvm.RequireAccountCode:
+			address := ret.Address()
+			ethAddress := asEthAddress(address)
+			if statedb.Exist(ethAddress) {
+				vm.CommitAccountCode(address, statedb.GetCode(ethAddress))
+				break
+			}
+			vm.CommitNonexist(address)
+		case sputnikvm.RequireAccountStorage:
+			address := ret.Address()
+			ethAddress := asEthAddress(address)
+			key := common.BigToHash(ret.StorageKey())
+			if statedb.Exist(ethAddress) {
+				value := statedb.GetState(ethAddress, key).Big()
+				sKey := ret.StorageKey()
+				vm.CommitAccountStorage(address, sKey, value)
+				break
+			}
+			vm.CommitNonexist(address)
+		case sputnikvm.RequireBlockhash:
+			number := ret.BlockNumber()
+			hash := ecc.BytesToHash(core.GetHashFn(header, bc)(number.Uint64()).Bytes())
+			vm.CommitBlockhash(number, hash)
+		}
+	}
+
+	// VM execution is finished at this point. We apply changes to the statedb.
+	for _, account := range vm.AccountChanges() {
+		switch account.Typ() {
+		case sputnikvm.AccountChangeIncreaseBalance:
+			ethAddress := asEthAddress(account.Address())
+			amount := account.ChangedAmount()
+			statedb.AddBalance(ethAddress, amount)
+		case sputnikvm.AccountChangeDecreaseBalance:
+			ethAddress := asEthAddress(account.Address())
+			amount := account.ChangedAmount()
+			balance := new(big.Int).Sub(statedb.GetBalance(ethAddress), amount)
+			statedb.SetBalance(ethAddress, balance)
+		case sputnikvm.AccountChangeRemoved:
+			ethAddress := asEthAddress(account.Address())
+			statedb.Suicide(ethAddress)
+		case sputnikvm.AccountChangeFull:
+			ethAddress := asEthAddress(account.Address())
+			code := account.Code()
+			nonce := account.Nonce()
+			balance := account.Balance()
+			statedb.SetBalance(ethAddress, balance)
+			statedb.SetNonce(ethAddress, nonce.Uint64())
+			statedb.SetCode(ethAddress, code)
+			for _, item := range account.ChangedStorage() {
+				statedb.SetState(ethAddress, common.BigToHash(item.Key), common.BigToHash(item.Value))
+			}
+		case sputnikvm.AccountChangeCreate:
+			ethAddress := asEthAddress(account.Address())
+			code := account.Code()
+			nonce := account.Nonce()
+			balance := account.Balance()
+			statedb.SetBalance(ethAddress, balance)
+			statedb.SetNonce(ethAddress, nonce.Uint64())
+			statedb.SetCode(ethAddress, code)
+			for _, item := range account.Storage() {
+				statedb.SetState(ethAddress, common.BigToHash(item.Key), common.BigToHash(item.Value))
+			}
+		default:
+			panic("unreachable")
+		}
+	}
+	for _, log := range vm.Logs() {
+		var topics []common.Hash
+		for _, t := range log.Topics {
+			topics = append(topics, common.BytesToHash(t.Bytes()))
+		}
+		// statelog := evm.NewLog(log.Address, log.Topics, log.Data, header.Number.Uint64())
+		statedb.AddLog(&types.Log{
+			Address:     asEthAddress(log.Address),
+			Topics:      topics,
+			Data:        log.Data,
+			BlockNumber: currentNumber.Uint64(),
+		})
+	}
+
+	// Update the state with pending changes
+	var root []byte
+	if config.IsEIP658F(header.Number) {
+		statedb.Finalise(true)
+	} else {
+		root = statedb.IntermediateRoot(config.IsEIP161F(header.Number)).Bytes()
+	}
+	gas := vm.UsedGas().Uint64()
+	*usedGas += gas
+
+	// Create a new receipt for the transaction, storing the intermediate root and gas used by the tx
+	// based on the eip phase, we're passing whether the root touch-delete accounts.
+	receipt := types.NewReceipt(root, vm.Failed(), *usedGas)
+	receipt.TxHash = tx.Hash()
+	receipt.GasUsed = gas
+
+	// if the transaction created a contract, store the creation address in the receipt.
+	if msg.To() == nil {
+		receipt.ContractAddress = crypto.CreateAddress(msg.From(), tx.Nonce())
+	}
+
+	// Set the receipt logs and create a bloom for filtering
+	receipt.Logs = statedb.GetLogs(tx.Hash())
+	receipt.Bloom = types.CreateBloom(types.Receipts{receipt})
+
+	return receipt, gas, err
 }

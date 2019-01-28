@@ -654,6 +654,11 @@ var (
 		Usage: "External EVM configuration (default = built-in interpreter)",
 		Value: "",
 	}
+	SputnikVMPluginFlag = cli.BoolFlag{
+		Name:  "vm.svm",
+		Usage: "Use SputnikVM. Requires building with necessary link flags to C file.",
+		Value: "",
+	}
 )
 
 // MakeDataDir retrieves the currently requested data directory, terminating
