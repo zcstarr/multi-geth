@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 
-set -e
-
+mkdir -p build/bin
 CGO_LDFLAGS="$GOPATH/src/github.com/etclabscore/sputnikvm-ffi/c/libsputnikvm.a -ldl -lm" go build -o build/bin/geth ./cmd/geth
 
