@@ -651,12 +651,7 @@ var (
 	}
 	EVMInterpreterFlag = cli.StringFlag{
 		Name:  "vm.evm",
-		Usage: "External EVM configuration (default = built-in interpreter)",
-		Value: "",
-	}
-	SputnikVMPluginFlag = cli.BoolFlag{
-		Name:  "vm.svm",
-		Usage: "Use SputnikVM. Requires building with necessary link flags to C file.",
+		Usage: "External EVM configuration (default = built-in interpreter, optionally: =svm)",
 		Value: "",
 	}
 )

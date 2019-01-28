@@ -32,7 +32,6 @@ import (
 	"github.com/ethereum/go-ethereum/accounts/keystore"
 	"github.com/ethereum/go-ethereum/cmd/utils"
 	"github.com/ethereum/go-ethereum/console"
-	"github.com/ethereum/go-ethereum/core"
 	"github.com/ethereum/go-ethereum/eth"
 	"github.com/ethereum/go-ethereum/ethclient"
 	"github.com/ethereum/go-ethereum/internal/debug"
@@ -140,7 +139,6 @@ var (
 		utils.GpoPercentileFlag,
 		utils.EWASMInterpreterFlag,
 		utils.EVMInterpreterFlag,
-		utils.SputnikVMPluginFlag,
 		configFileFlag,
 	}
 
@@ -246,10 +244,6 @@ func init() {
 
 		// Start system runtime metrics collection
 		go metrics.CollectProcessMetrics(3 * time.Second)
-
-		if p := ctx.GlobalBool(utils.SputnikVMPluginFlag.Name); p != "" {
-			core.UseSputnikVM = true
-		}
 
 		return nil
 	}

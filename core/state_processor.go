@@ -23,7 +23,6 @@ import (
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/consensus"
 	"github.com/ethereum/go-ethereum/consensus/misc"
-	"github.com/ethereum/go-ethereum/core"
 	"github.com/ethereum/go-ethereum/core/state"
 	"github.com/ethereum/go-ethereum/core/types"
 	"github.com/ethereum/go-ethereum/core/vm"
@@ -31,12 +30,6 @@ import (
 	"github.com/ethereum/go-ethereum/params"
 	ecc "github.com/ethereumclassic/go-ethereum/common"
 )
-
-// // SputnikVMPlugin is the path to a valid .so SputnikVM plugin static object.
-// // If this variable is not configured (via -ldflags) then the standard ApplyTransaction function
-// // using the adjacent go EVM is used.
-// var SputnikVMPlugin = "" // Does Not Exist
-var UseSputnikVM = false
 
 // StateProcessor is a basic Processor, which takes care of transitioning
 // state from one point to another.
@@ -97,7 +90,7 @@ func (p *StateProcessor) Process(block *types.Block, statedb *state.StateDB, cfg
 // for the transaction, gas used and an error if the transaction failed,
 // indicating the block was invalid.
 func ApplyTransaction(config *params.ChainConfig, bc ChainContext, author *common.Address, gp *GasPool, statedb *state.StateDB, header *types.Header, tx *types.Transaction, usedGas *uint64, cfg vm.Config) (*types.Receipt, uint64, error) {
-	if UseSputnikVM {
+	if cfg.EVMInterpreter == "svm" {
 		return ApplySputnikTransaction(config, bc, author, gp, statedb, header, tx, usedGas, cfg)
 	}
 	return applyTransaction(config, bc, author, gp, statedb, header, tx, usedGas, cfg)
@@ -144,7 +137,7 @@ func applyTransaction(config *params.ChainConfig, bc ChainContext, author *commo
 	return receipt, gas, err
 
 }
-func ApplySputnikTransaction(config *params.ChainConfig, bc core.ChainContext, author *common.Address, gp *core.GasPool, statedb *state.StateDB, header *types.Header, tx *types.Transaction, usedGas *uint64, cfg vm.Config) (*types.Receipt, uint64, error) {
+func ApplySputnikTransaction(config *params.ChainConfig, bc ChainContext, author *common.Address, gp *GasPool, statedb *state.StateDB, header *types.Header, tx *types.Transaction, usedGas *uint64, cfg vm.Config) (*types.Receipt, uint64, error) {
 	asClassicAddress := func(a common.Address) ecc.Address {
 		return ecc.BytesToAddress(a.Bytes())
 	}
@@ -225,7 +218,7 @@ OUTER:
 			vm.CommitNonexist(address)
 		case sputnikvm.RequireBlockhash:
 			number := ret.BlockNumber()
-			hash := ecc.BytesToHash(core.GetHashFn(header, bc)(number.Uint64()).Bytes())
+			hash := ecc.BytesToHash(GetHashFn(header, bc)(number.Uint64()).Bytes())
 			vm.CommitBlockhash(number, hash)
 		}
 	}
