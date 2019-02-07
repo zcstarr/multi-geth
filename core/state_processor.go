@@ -134,8 +134,8 @@ func applyTransaction(config *params.ChainConfig, bc ChainContext, author *commo
 	receipt.Bloom = types.CreateBloom(types.Receipts{receipt})
 
 	return receipt, gas, err
-
 }
+
 func ApplySputnikTransaction(config *params.ChainConfig, bc ChainContext, author *common.Address, gp *GasPool, statedb *state.StateDB, header *types.Header, tx *types.Transaction, usedGas *uint64, cfg vm.Config) (*types.Receipt, uint64, error) {
 	asSputnikAddress := func(a common.Address) [20]byte {
 		var addr [20]byte
@@ -184,16 +184,8 @@ func ApplySputnikTransaction(config *params.ChainConfig, bc ChainContext, author
 
 	// Get SputnikVM's corresponding chain config.
 	// TODO: handle chains that are not networkid=1 (ETH main), eg testnets, custom chains with custom state staring nonces
-	var vm *sputnikvm.VM
-	if config.IsEIP160F(currentNumber) {
-		vm = sputnikvm.NewEIP160(&vmtx, &vmheader)
-	} else if config.IsEIP150(currentNumber) {
-		vm = sputnikvm.NewEIP150(&vmtx, &vmheader)
-	} else if config.IsHomestead(currentNumber) {
-		vm = sputnikvm.NewHomestead(&vmtx, &vmheader)
-	} else {
-		vm = sputnikvm.NewFrontier(&vmtx, &vmheader)
-	}
+	patch := MakeSputnikVMPatch(config, header)
+	vm := sputnikvm.NewDynamic(patch, &vmtx, &vmheader)
 
 OUTER:
 	for {
@@ -317,4 +309,63 @@ OUTER:
 	receipt.Bloom = types.CreateBloom(types.Receipts{receipt})
 
 	return receipt, gas, err
+}
+
+func MakeSputnikVMPatch(config *params.ChainConfig, header *types.Header) sputnikvm.DynamicPatch {
+	gasTable := config.GasTable(header.Number)
+
+	// Zero == unlimited
+	codeDepositLimit := 0
+	if config.IsEIP170F(header.Number) {
+		codeDepositLimit = params.MaxCodeSize
+	}
+
+	// Helper to convert uint64 tp big.Int
+	toBigInt := func(x uint64) *big.Int {
+		return new(big.Int).SetUint64(x)
+	}
+
+	// TODO: figure out unknown values
+	UNKNOWN := false
+
+	patchBuilder := sputnikvm.DynamicPatchBuilder{
+		CodeDepositLimit:            uint(codeDepositLimit),
+		CallStackLimit:              uint(params.CallCreateDepth),
+		GasExtcode:                  toBigInt(gasTable.ExtcodeCopy),
+		GasBalance:                  toBigInt(gasTable.Balance),
+		GasSload:                    toBigInt(gasTable.SLoad),
+		GasSuicide:                  toBigInt(gasTable.Suicide),
+		GasSuicideNewAccount:        toBigInt(gasTable.CreateBySuicide),
+		GasCall:                     toBigInt(gasTable.Calls),
+		GasExtbyte:                  toBigInt(gasTable.ExpByte),
+		GasTransactionCreate:        toBigInt(params.CreateGas),
+		ForceCodeDeposit:            UNKNOWN,
+		HasDelegateCall:             config.IsEIP7F(header.Number),
+		HasStaticCall:               config.IsEIP214F(header.Number),
+		HasRevert:                   config.IsEIP140F(header.Number),
+		HasReturnData:               config.IsEIP211F(header.Number),
+		HasBitwiseShift:             config.IsEIP145F(header.Number),
+		HasExtCodeHash:              config.IsEIP1052F(header.Number),
+		HasReducedSstoreGasMetering: UNKNOWN,
+		ErrOnCallWithMoreGas:        UNKNOWN,
+		CallCreateL64AfterGas:       UNKNOWN,
+		MemoryLimit:                 0, // UNKNOWN
+	}
+
+	// TODO: precompiled contracts
+	// 		 need an interface in SVM alike one there's in MultiGeth:
+	// 		 embedded contracts + enabled bitset in Patch
+	precompiledSet := sputnikvm.PRECOMPILED_CONTRACTS_ETC
+
+	// TODO: need actual values from MultiGeth
+	accountPatch := sputnikvm.DynamicAccountPatch{
+		InitialNonce:          toBigInt(0),
+		InitialCreateNonce:    toBigInt(0),
+		EmptyConsideredExists: true,
+		AllowPartialChange:    true,
+	}
+
+	dynamicPatch := sputnikvm.NewDynamicPatch(&patchBuilder, precompiledSet, &accountPatch)
+
+	return dynamicPatch
 }
