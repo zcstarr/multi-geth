@@ -28,7 +28,6 @@ import (
 	"github.com/ethereum/go-ethereum/core/vm"
 	"github.com/ethereum/go-ethereum/crypto"
 	"github.com/ethereum/go-ethereum/params"
-	ecc "github.com/ethereumclassic/go-ethereum/common"
 )
 
 // StateProcessor is a basic Processor, which takes care of transitioning
@@ -138,30 +137,44 @@ func applyTransaction(config *params.ChainConfig, bc ChainContext, author *commo
 
 }
 func ApplySputnikTransaction(config *params.ChainConfig, bc ChainContext, author *common.Address, gp *GasPool, statedb *state.StateDB, header *types.Header, tx *types.Transaction, usedGas *uint64, cfg vm.Config) (*types.Receipt, uint64, error) {
-	asClassicAddress := func(a common.Address) ecc.Address {
-		return ecc.BytesToAddress(a.Bytes())
+	asSputnikAddress := func(a common.Address) [20]byte {
+		var addr [20]byte
+		addressBytes := a.Bytes()
+		for i := 0; i < 20; i++ {
+			addr[i] = addressBytes[i]
+		}
+		return addr
 	}
 
-	asEthAddress := func(a ecc.Address) common.Address {
-		return common.BytesToAddress(a.Bytes())
+	asSputnikHash := func(h common.Hash) [32]byte {
+		var hash [32]byte
+		hashBytes := h.Bytes()
+		for i := 0; i < 32; i++ {
+			hash[i] = hashBytes[i]
+		}
+		return hash
+	}
+
+	asEthAddress := func(a [20]byte) common.Address {
+		return common.BytesToAddress(a[:])
 	}
 
 	msg, err := tx.AsMessage(types.MakeSigner(config, header.Number))
 	if err != nil {
 		return nil, 0, err
 	}
-	addr := ecc.BytesToAddress(tx.To().Bytes())
+	addr := tx.To().Bytes()
 	vmtx := sputnikvm.Transaction{
-		Caller:   asClassicAddress(msg.From()),
+		Caller:   asSputnikAddress(msg.From()),
 		GasPrice: tx.GasPrice(),
 		GasLimit: new(big.Int).SetUint64(tx.Gas()),
-		Address:  &addr,
+		Address:  addr,
 		Value:    tx.Value(),
 		Input:    tx.Data(),
 		Nonce:    new(big.Int).SetUint64(tx.Nonce()),
 	}
 	vmheader := sputnikvm.HeaderParams{
-		Beneficiary: asClassicAddress(header.Coinbase),
+		Beneficiary: asSputnikAddress(header.Coinbase),
 		Timestamp:   header.Time.Uint64(),
 		Number:      header.Number,
 		Difficulty:  header.Difficulty,
@@ -218,7 +231,7 @@ OUTER:
 			vm.CommitNonexist(address)
 		case sputnikvm.RequireBlockhash:
 			number := ret.BlockNumber()
-			hash := ecc.BytesToHash(GetHashFn(header, bc)(number.Uint64()).Bytes())
+			hash := asSputnikHash(GetHashFn(header, bc)(number.Uint64()))
 			vm.CommitBlockhash(number, hash)
 		}
 	}
@@ -267,7 +280,7 @@ OUTER:
 	for _, log := range vm.Logs() {
 		var topics []common.Hash
 		for _, t := range log.Topics {
-			topics = append(topics, common.BytesToHash(t.Bytes()))
+			topics = append(topics, common.BytesToHash(t[:]))
 		}
 		// statelog := evm.NewLog(log.Address, log.Topics, log.Data, header.Number.Uint64())
 		statedb.AddLog(&types.Log{
