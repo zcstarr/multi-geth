@@ -325,8 +325,32 @@ func MakeSputnikVMPatch(config *params.ChainConfig, header *types.Header) sputni
 		return new(big.Int).SetUint64(x)
 	}
 
-	// TODO: figure out unknown values
-	UNKNOWN := false
+	rules := config.Rules(header.Number)
+
+	// Build list of enabled precompile
+	enabledPrecompileds := [][20]byte{
+		common.BytesToAddress([]byte{1}),
+		common.BytesToAddress([]byte{2}),
+		common.BytesToAddress([]byte{3}),
+		common.BytesToAddress([]byte{4}),
+	}
+
+	if rules.IsEIP198F {
+		enabledPrecompileds = append(enabledPrecompileds,
+			common.BytesToAddress([]byte{5}))
+	}
+
+	if rules.IsEIP213F {
+		enabledPrecompileds = append(enabledPrecompileds,
+			common.BytesToAddress([]byte{6}))
+		enabledPrecompileds = append(enabledPrecompileds,
+			common.BytesToAddress([]byte{7}))
+	}
+
+	if rules.IsEIP212F {
+		enabledPrecompileds = append(enabledPrecompileds,
+			common.BytesToAddress([]byte{8}))
+	}
 
 	patchBuilder := sputnikvm.DynamicPatchBuilder{
 		CodeDepositLimit:            uint(codeDepositLimit),
@@ -339,33 +363,33 @@ func MakeSputnikVMPatch(config *params.ChainConfig, header *types.Header) sputni
 		GasCall:                     toBigInt(gasTable.Calls),
 		GasExtbyte:                  toBigInt(gasTable.ExpByte),
 		GasTransactionCreate:        toBigInt(params.CreateGas),
-		ForceCodeDeposit:            UNKNOWN,
-		HasDelegateCall:             config.IsEIP7F(header.Number),
-		HasStaticCall:               config.IsEIP214F(header.Number),
-		HasRevert:                   config.IsEIP140F(header.Number),
-		HasReturnData:               config.IsEIP211F(header.Number),
-		HasBitwiseShift:             config.IsEIP145F(header.Number),
-		HasExtCodeHash:              config.IsEIP1052F(header.Number),
-		HasReducedSstoreGasMetering: UNKNOWN,
-		ErrOnCallWithMoreGas:        UNKNOWN,
-		CallCreateL64AfterGas:       UNKNOWN,
-		MemoryLimit:                 0, // UNKNOWN
+		ForceCodeDeposit:            rules.IsEIP2F,
+		HasDelegateCall:             rules.IsEIP7F,
+		HasStaticCall:               rules.IsEIP214F,
+		HasRevert:                   rules.IsEIP140F,
+		HasReturnData:               rules.IsEIP211F,
+		HasBitwiseShift:             rules.IsEIP145F,
+		HasExtCodeHash:              rules.IsEIP1052F,
+		HasReducedSstoreGasMetering: rules.IsEIP1283F,
+		ErrOnCallWithMoreGas:        !rules.IsEIP150,
+		CallCreateL64AfterGas:       rules.IsEIP150,
+		MemoryLimit:                 ^uint(0), // Reversed 0 is max unsigned integer value for uint
+		EnabledContracts:            enabledPrecompileds,
 	}
 
-	// TODO: precompiled contracts
-	// 		 need an interface in SVM alike one there's in MultiGeth:
-	// 		 embedded contracts + enabled bitset in Patch
-	precompiledSet := sputnikvm.PRECOMPILED_CONTRACTS_ETC
-
-	// TODO: need actual values from MultiGeth
+	var initialNonce uint64
+	var initialCreateNonce uint64
+	if rules.IsEIP161F {
+		initialCreateNonce = 1
+	}
 	accountPatch := sputnikvm.DynamicAccountPatch{
-		InitialNonce:          toBigInt(0),
-		InitialCreateNonce:    toBigInt(0),
-		EmptyConsideredExists: true,
-		AllowPartialChange:    true,
+		InitialNonce:          toBigInt(initialNonce),
+		InitialCreateNonce:    toBigInt(initialCreateNonce),
+		EmptyConsideredExists: !rules.IsEIP161F,
+		AllowPartialChange:    !rules.IsEIP161F,
 	}
 
-	dynamicPatch := sputnikvm.NewDynamicPatch(&patchBuilder, precompiledSet, &accountPatch)
+	dynamicPatch := sputnikvm.NewDynamicPatch(&patchBuilder, &accountPatch)
 
 	return dynamicPatch
 }
