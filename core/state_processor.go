@@ -395,7 +395,7 @@ func MakeSputnikVMPatch(config *params.ChainConfig, header *types.Header) sputni
 		InitialNonce:          toBigInt(initialNonce),
 		InitialCreateNonce:    toBigInt(initialCreateNonce),
 		EmptyConsideredExists: !rules.IsEIP161F,
-		AllowPartialChange:    !rules.IsEIP161F,
+		AllowPartialChange:    true,
 	}
 
 	dynamicPatch := sputnikvm.NewDynamicPatch(&patchBuilder, &accountPatch)
