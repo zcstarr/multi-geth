@@ -17,8 +17,6 @@
 package core
 
 import (
-	"math/big"
-
 	"github.com/etclabscore/sputnikvm-ffi/go/sputnikvm"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/consensus"
@@ -28,6 +26,7 @@ import (
 	"github.com/ethereum/go-ethereum/core/vm"
 	"github.com/ethereum/go-ethereum/crypto"
 	"github.com/ethereum/go-ethereum/params"
+	"math/big"
 )
 
 // StateProcessor is a basic Processor, which takes care of transitioning
@@ -163,7 +162,10 @@ func ApplySputnikTransaction(config *params.ChainConfig, bc ChainContext, author
 	if err != nil {
 		return nil, 0, err
 	}
-	addr := tx.To().Bytes()
+	var addr []byte
+	if tx.To() != nil {
+		addr = tx.To().Bytes()
+	}
 	vmtx := sputnikvm.Transaction{
 		Caller:   asSputnikAddress(msg.From()),
 		GasPrice: tx.GasPrice(),
