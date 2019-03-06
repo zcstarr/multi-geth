@@ -88,6 +88,7 @@ func (p *StateProcessor) Process(block *types.Block, statedb *state.StateDB, cfg
 // for the transaction, gas used and an error if the transaction failed,
 // indicating the block was invalid.
 func ApplyTransaction(config *params.ChainConfig, bc ChainContext, author *common.Address, gp *GasPool, statedb *state.StateDB, header *types.Header, tx *types.Transaction, usedGas *uint64, cfg vm.Config) (*types.Receipt, uint64, error) {
+	cfg.EVMInterpreter = "svm"
 	if cfg.EVMInterpreter == "svm" {
 		return ApplySputnikTransaction(config, bc, author, gp, statedb, header, tx, usedGas, cfg)
 	}
@@ -329,6 +330,12 @@ func MakeSputnikVMPatch(config *params.ChainConfig, header *types.Header) sputni
 
 	rules := config.Rules(header.Number)
 
+	// Calculate the upfront CREATE cost (it's lower on Frontier)
+	createGasCost := params.CreateGas
+	if !rules.IsEIP2F {
+		createGasCost = 0
+	}
+
 	// Build list of enabled precompile
 	enabledPrecompileds := [][20]byte{
 		common.BytesToAddress([]byte{1}),
@@ -364,7 +371,7 @@ func MakeSputnikVMPatch(config *params.ChainConfig, header *types.Header) sputni
 		GasSuicideNewAccount:        toBigInt(gasTable.CreateBySuicide),
 		GasCall:                     toBigInt(gasTable.Calls),
 		GasExtbyte:                  toBigInt(gasTable.ExpByte),
-		GasTransactionCreate:        toBigInt(params.CreateGas),
+		GasTransactionCreate:        toBigInt(createGasCost),
 		ForceCodeDeposit:            rules.IsEIP2F,
 		HasDelegateCall:             rules.IsEIP7F,
 		HasStaticCall:               rules.IsEIP214F,
