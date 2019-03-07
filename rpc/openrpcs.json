@@ -65,8 +65,330 @@
             "description": "RPC API",
             "title": "Ethereum Services"
         },
-        "openapi": "",
-        "paths": {
+        "methods": [
+            {
+                "name": "admin_exportChain",
+                "description": "", 
+                "params": [
+                    {
+                        "name": "",
+                        "description": "",
+                        "schema": {
+                            "type": "",
+                            "format": ""
+                        }
+                    }
+                ] 
+            },
+            {
+                "name": "admin_importChain",
+                "description": "", 
+                "params": [
+                    {
+                        "name": "",
+                        "description": "",
+                        "schema": {
+                            "type": "",
+                            "format": ""
+                        }
+                    }
+                ] 
+            },
+            {
+                "name": "debug_chaindbCompact",
+                "description": "", 
+                "params": [
+                    {
+                        "name": "",
+                        "description": "",
+                        "schema": {
+                            "type": "",
+                            "format": ""
+                        }
+                    }
+                ] 
+            },
+            {
+                "name": "debug_chaindbProperty",
+                "description": "", 
+                "params": [
+                    {
+                        "name": "",
+                        "description": "",
+                        "schema": {
+                            "type": "",
+                            "format": ""
+                        }
+                    }
+                ] 
+            },
+            {
+                "name": "debug_dumpBlock",
+                "description": "", 
+                "params": [
+                    {
+                        "name": "",
+                        "description": "",
+                        "schema": {
+                            "type": "",
+                            "format": ""
+                        }
+                    }
+                ] 
+            },
+            {
+                "name": "debug_getBadBlocks",
+                "description": "", 
+                "params": [
+                    {
+                        "name": "",
+                        "description": "",
+                        "schema": {
+                            "type": "",
+                            "format": ""
+                        }
+                    }
+                ] 
+            },
+            {
+                "name": "debug_getBlockRlp",
+                "description": "", 
+                "params": [
+                    {
+                        "name": "",
+                        "description": "",
+                        "schema": {
+                            "type": "",
+                            "format": ""
+                        }
+                    }
+                ] 
+            },
+            {
+                "name": "debug_getModifiedAccountsByHash",
+                "description": "", 
+                "params": [
+                    {
+                        "name": "",
+                        "description": "",
+                        "schema": {
+                            "type": "",
+                            "format": ""
+                        }
+                    }
+                ] 
+            },
+            {
+                "name": "debug_getModifiedAccountsByNumber",
+                "description": "", 
+                "params": [
+                    {
+                        "name": "",
+                        "description": "",
+                        "schema": {
+                            "type": "",
+                            "format": ""
+                        }
+                    }
+                ] 
+            },
+            {
+                "name": "debug_preimage",
+                "description": "", 
+                "params": [
+                    {
+                        "name": "",
+                        "description": "",
+                        "schema": {
+                            "type": "",
+                            "format": ""
+                        }
+                    }
+                ] 
+            },
+            {
+                "name": "debug_printBlock",
+                "description": "", 
+                "params": [
+                    {
+                        "name": "",
+                        "description": "",
+                        "schema": {
+                            "type": "",
+                            "format": ""
+                        }
+                    }
+                ] 
+            },
+            {
+                "name": "debug_seedHash",
+                "description": "", 
+                "params": [
+                    {
+                        "name": "",
+                        "description": "",
+                        "schema": {
+                            "type": "",
+                            "format": ""
+                        }
+                    }
+                ] 
+            },
+            {
+                "name": "debug_setHead",
+                "description": "", 
+                "params": [
+                    {
+                        "name": "",
+                        "description": "",
+                        "schema": {
+                            "type": "",
+                            "format": ""
+                        }
+                    }
+                ] 
+            },
+            {
+                "name": "debug_standardTraceBadBlockToFile",
+                "description": "", 
+                "params": [
+                    {
+                        "name": "",
+                        "description": "",
+                        "schema": {
+                            "type": "",
+                            "format": ""
+                        }
+                    }
+                ] 
+            },
+            {
+                "name": "debug_standardTraceBlockToFile",
+                "description": "", 
+                "params": [
+                    {
+                        "name": "",
+                        "description": "",
+                        "schema": {
+                            "type": "",
+                            "format": ""
+                        }
+                    }
+                ] 
+            },
+            {
+                "name": "debug_storageRangeAt",
+                "description": "", 
+                "params": [
+                    {
+                        "name": "",
+                        "description": "",
+                        "schema": {
+                            "type": "",
+                            "format": ""
+                        }
+                    }
+                ] 
+            },
+            {
+                "name": "debug_traceBadBlock",
+                "description": "", 
+                "params": [
+                    {
+                        "name": "",
+                        "description": "",
+                        "schema": {
+                            "type": "",
+                            "format": ""
+                        }
+                    }
+                ] 
+            },
+            {
+                "name": "debug_traceBlock",
+                "description": "", 
+                "params": [
+                    {
+                        "name": "",
+                        "description": "",
+                        "schema": {
+                            "type": "",
+                            "format": ""
+                        }
+                    }
+                ] 
+            },
+            {
+                "name": "debug_traceBlockByHash",
+                "description": "", 
+                "params": [
+                    {
+                        "name": "",
+                        "description": "",
+                        "schema": {
+                            "type": "",
+                            "format": ""
+                        }
+                    }
+                ] 
+            },
+            {
+                "name": "debug_traceBlockByNumber",
+                "description": "", 
+                "params": [
+                    {
+                        "name": "",
+                        "description": "",
+                        "schema": {
+                            "type": "",
+                            "format": ""
+                        }
+                    }
+                ] 
+            },
+            {
+                "name": "debug_traceBlockFromFile",
+                "description": "", 
+                "params": [
+                    {
+                        "name": "",
+                        "description": "",
+                        "schema": {
+                            "type": "",
+                            "format": ""
+                        }
+                    }
+                ] 
+            },
+            {
+                "name": "debug_traceChain",
+                "description": "", 
+                "params": [
+                    {
+                        "name": "",
+                        "description": "",
+                        "schema": {
+                            "type": "",
+                            "format": ""
+                        }
+                    }
+                ] 
+            },
+            {
+                "name": "debug_traceTransaction",
+                "description": "", 
+                "params": [
+                    {
+                        "name": "",
+                        "description": "",
+                        "schema": {
+                            "type": "",
+                            "format": ""
+                        }
+                    }
+                ] 
+            },
+             
             "admin_exportChain": {
                 "post": {
                     "parameters": [
@@ -89,8 +411,10 @@
                         }
                     }
                 }
-            },
-            "admin_importChain": {
+                }
+            }
+            ,
+            {"admin_importChain": {
                 "post": {
                     "parameters": [
                         {
@@ -2055,5 +2379,5 @@
                 "post": {}
             }
         }
-    }
+    ]
 }
