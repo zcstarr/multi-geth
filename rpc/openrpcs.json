@@ -388,1996 +388,1125 @@
                     }
                 ] 
             },
-             
-            "admin_exportChain": {
-                "post": {
-                    "parameters": [
-                        {
-                            "name": "string",
-                            "schema": {
-                                "$ref": "string"
-                            }
-                        }
-                    ],
-                    "responses": {
-                        "200": {
-                            "content": {
-                                "application/json": {
-                                    "schema": {
-                                        "$ref": "error"
-                                    }
-                                }
-                            }
+            {
+                "name": "eth_accounts",
+                "description": "", 
+                "params": [
+                    {
+                        "name": "",
+                        "description": "",
+                        "schema": {
+                            "type": "",
+                            "format": ""
                         }
                     }
-                }
-                }
+                ] 
+            },
+            {
+                "name": "eth_blockNumber",
+                "description": "", 
+                "params": [
+                    {
+                        "name": "",
+                        "description": "",
+                        "schema": {
+                            "type": "",
+                            "format": ""
+                        }
+                    }
+                ] 
+            },
+            {
+                "name": "eth_call",
+                "description": "", 
+                "params": [
+                    {
+                        "name": "",
+                        "description": "",
+                        "schema": {
+                            "type": "",
+                            "format": ""
+                        }
+                    }
+                ] 
+            },
+            {
+                "name": "eth_chainId",
+                "description": "", 
+                "params": [
+                    {
+                        "name": "",
+                        "description": "",
+                        "schema": {
+                            "type": "",
+                            "format": ""
+                        }
+                    }
+                ] 
+            },
+            {
+                "name": "eth_coinbase",
+                "description": "", 
+                "params": [
+                    {
+                        "name": "",
+                        "description": "",
+                        "schema": {
+                            "type": "",
+                            "format": ""
+                        }
+                    }
+                ] 
+            },
+            {
+                "name": "eth_estimateGas",
+                "description": "", 
+                "params": [
+                    {
+                        "name": "",
+                        "description": "",
+                        "schema": {
+                            "type": "",
+                            "format": ""
+                        }
+                    }
+                ] 
+            },
+            {
+                "name": "eth_etherbase",
+                "description": "", 
+                "params": [
+                    {
+                        "name": "",
+                        "description": "",
+                        "schema": {
+                            "type": "",
+                            "format": ""
+                        }
+                    }
+                ] 
+            },
+            {
+                "name": "eth_gasPrice",
+                "description": "", 
+                "params": [
+                    {
+                        "name": "",
+                        "description": "",
+                        "schema": {
+                            "type": "",
+                            "format": ""
+                        }
+                    }
+                ] 
+            },
+            {
+                "name": "eth_getBalance",
+                "description": "", 
+                "params": [
+                    {
+                        "name": "",
+                        "description": "",
+                        "schema": {
+                            "type": "",
+                            "format": ""
+                        }
+                    }
+                ] 
+            },
+            {
+                "name": "eth_getBlockByHash",
+                "description": "", 
+                "params": [
+                    {
+                        "name": "",
+                        "description": "",
+                        "schema": {
+                            "type": "",
+                            "format": ""
+                        }
+                    }
+                ] 
+            },
+            {
+                "name": "eth_getBlockByNumber",
+                "description": "", 
+                "params": [
+                    {
+                        "name": "",
+                        "description": "",
+                        "schema": {
+                            "type": "",
+                            "format": ""
+                        }
+                    }
+                ] 
+            },
+            {
+                "name": "eth_getBlockTransactionCountByHash",
+                "description": "", 
+                "params": [
+                    {
+                        "name": "",
+                        "description": "",
+                        "schema": {
+                            "type": "",
+                            "format": ""
+                        }
+                    }
+                ] 
+            },
+            {
+                "name": "eth_getBlockTransactionCountByNumber",
+                "description": "", 
+                "params": [
+                    {
+                        "name": "",
+                        "description": "",
+                        "schema": {
+                            "type": "",
+                            "format": ""
+                        }
+                    }
+                ] 
+            },
+            {
+                "name": "eth_getCode",
+                "description": "", 
+                "params": [
+                    {
+                        "name": "",
+                        "description": "",
+                        "schema": {
+                            "type": "",
+                            "format": ""
+                        }
+                    }
+                ] 
+            },
+            {
+                "name": "eth_getFilterChanges",
+                "description": "", 
+                "params": [
+                    {
+                        "name": "",
+                        "description": "",
+                        "schema": {
+                            "type": "",
+                            "format": ""
+                        }
+                    }
+                ] 
+            },
+            {
+                "name": "eth_getFilterLogs",
+                "description": "", 
+                "params": [
+                    {
+                        "name": "",
+                        "description": "",
+                        "schema": {
+                            "type": "",
+                            "format": ""
+                        }
+                    }
+                ] 
+            },
+            {
+                "name": "eth_getHashrate",
+                "description": "", 
+                "params": [
+                    {
+                        "name": "",
+                        "description": "",
+                        "schema": {
+                            "type": "",
+                            "format": ""
+                        }
+                    }
+                ] 
+            },
+            {
+                "name": "eth_getLogs",
+                "description": "", 
+                "params": [
+                    {
+                        "name": "",
+                        "description": "",
+                        "schema": {
+                            "type": "",
+                            "format": ""
+                        }
+                    }
+                ] 
+            },
+            {
+                "name": "eth_getProof",
+                "description": "", 
+                "params": [
+                    {
+                        "name": "",
+                        "description": "",
+                        "schema": {
+                            "type": "",
+                            "format": ""
+                        }
+                    }
+                ] 
+            },
+            {
+                "name": "eth_getRawTransactionByBlockHashAndIndex",
+                "description": "", 
+                "params": [
+                    {
+                        "name": "",
+                        "description": "",
+                        "schema": {
+                            "type": "",
+                            "format": ""
+                        }
+                    }
+                ] 
+            },
+            {
+                "name": "eth_getRawTransactionByBlockNumberAndIndex",
+                "description": "", 
+                "params": [
+                    {
+                        "name": "",
+                        "description": "",
+                        "schema": {
+                            "type": "",
+                            "format": ""
+                        }
+                    }
+                ] 
+            },
+            {
+                "name": "eth_getRawTransactionByHash",
+                "description": "", 
+                "params": [
+                    {
+                        "name": "",
+                        "description": "",
+                        "schema": {
+                            "type": "",
+                            "format": ""
+                        }
+                    }
+                ] 
+            },
+            {
+                "name": "eth_getStorageAt",
+                "description": "", 
+                "params": [
+                    {
+                        "name": "",
+                        "description": "",
+                        "schema": {
+                            "type": "",
+                            "format": ""
+                        }
+                    }
+                ] 
+            },
+            {
+                "name": "eth_getTransactionByBlockHashAndIndex",
+                "description": "", 
+                "params": [
+                    {
+                        "name": "",
+                        "description": "",
+                        "schema": {
+                            "type": "",
+                            "format": ""
+                        }
+                    }
+                ] 
+            },
+            {
+                "name": "eth_getTransactionByBlockNumberAndIndex",
+                "description": "", 
+                "params": [
+                    {
+                        "name": "",
+                        "description": "",
+                        "schema": {
+                            "type": "",
+                            "format": ""
+                        }
+                    }
+                ] 
+            },
+            {
+                "name": "eth_getTransactionByHash",
+                "description": "", 
+                "params": [
+                    {
+                        "name": "",
+                        "description": "",
+                        "schema": {
+                            "type": "",
+                            "format": ""
+                        }
+                    }
+                ] 
+            },
+            {
+                "name": "eth_getTransactionCount",
+                "description": "", 
+                "params": [
+                    {
+                        "name": "",
+                        "description": "",
+                        "schema": {
+                            "type": "",
+                            "format": ""
+                        }
+                    }
+                ] 
+            },
+            {
+                "name": "eth_getTransactionReceipt",
+                "description": "", 
+                "params": [
+                    {
+                        "name": "",
+                        "description": "",
+                        "schema": {
+                            "type": "",
+                            "format": ""
+                        }
+                    }
+                ] 
+            },
+            {
+                "name": "eth_getUncleByBlockHashAndIndex",
+                "description": "", 
+                "params": [
+                    {
+                        "name": "",
+                        "description": "",
+                        "schema": {
+                            "type": "",
+                            "format": ""
+                        }
+                    }
+                ] 
+            },
+            {
+                "name": "eth_getUncleByBlockNumberAndIndex",
+                "description": "", 
+                "params": [
+                    {
+                        "name": "",
+                        "description": "",
+                        "schema": {
+                            "type": "",
+                            "format": ""
+                        }
+                    }
+                ] 
+            },
+            {
+                "name": "eth_getUncleCountByBlockHash",
+                "description": "", 
+                "params": [
+                    {
+                        "name": "",
+                        "description": "",
+                        "schema": {
+                            "type": "",
+                            "format": ""
+                        }
+                    }
+                ] 
+            },
+            {
+                "name": "eth_getUncleCountByBlockNumber",
+                "description": "", 
+                "params": [
+                    {
+                        "name": "",
+                        "description": "",
+                        "schema": {
+                            "type": "",
+                            "format": ""
+                        }
+                    }
+                ] 
+            },
+            {
+                "name": "eth_getWork",
+                "description": "", 
+                "params": [
+                    {
+                        "name": "",
+                        "description": "",
+                        "schema": {
+                            "type": "",
+                            "format": ""
+                        }
+                    }
+                ] 
+            },
+            {
+                "name": "eth_hashrate",
+                "description": "", 
+                "params": [
+                    {
+                        "name": "",
+                        "description": "",
+                        "schema": {
+                            "type": "",
+                            "format": ""
+                        }
+                    }
+                ] 
+            },
+            {
+                "name": "eth_logs",
+                "description": "", 
+                "params": [
+                    {
+                        "name": "",
+                        "description": "",
+                        "schema": {
+                            "type": "",
+                            "format": ""
+                        }
+                    }
+                ] 
+            },
+            {
+                "name": "eth_mining",
+                "description": "", 
+                "params": [
+                    {
+                        "name": "",
+                        "description": "",
+                        "schema": {
+                            "type": "",
+                            "format": ""
+                        }
+                    }
+                ] 
+            },
+            {
+                "name": "eth_newBlockFilter",
+                "description": "", 
+                "params": [
+                    {
+                        "name": "",
+                        "description": "",
+                        "schema": {
+                            "type": "",
+                            "format": ""
+                        }
+                    }
+                ] 
+            },
+            {
+                "name": "eth_newFilter",
+                "description": "", 
+                "params": [
+                    {
+                        "name": "",
+                        "description": "",
+                        "schema": {
+                            "type": "",
+                            "format": ""
+                        }
+                    }
+                ] 
+            },
+            {
+                "name": "eth_newHeads",
+                "description": "", 
+                "params": [
+                    {
+                        "name": "",
+                        "description": "",
+                        "schema": {
+                            "type": "",
+                            "format": ""
+                        }
+                    }
+                ] 
+            },
+            {
+                "name": "eth_newPendingTransactionFilter",
+                "description": "", 
+                "params": [
+                    {
+                        "name": "",
+                        "description": "",
+                        "schema": {
+                            "type": "",
+                            "format": ""
+                        }
+                    }
+                ] 
+            },
+            {
+                "name": "eth_newPendingTransactions",
+                "description": "", 
+                "params": [
+                    {
+                        "name": "",
+                        "description": "",
+                        "schema": {
+                            "type": "",
+                            "format": ""
+                        }
+                    }
+                ] 
+            },
+            {
+                "name": "eth_pendingTransactions",
+                "description": "", 
+                "params": [
+                    {
+                        "name": "",
+                        "description": "",
+                        "schema": {
+                            "type": "",
+                            "format": ""
+                        }
+                    }
+                ] 
+            },
+            {
+                "name": "eth_protocolVersion",
+                "description": "", 
+                "params": [
+                    {
+                        "name": "",
+                        "description": "",
+                        "schema": {
+                            "type": "",
+                            "format": ""
+                        }
+                    }
+                ] 
+            },
+            {
+                "name": "eth_resend",
+                "description": "", 
+                "params": [
+                    {
+                        "name": "",
+                        "description": "",
+                        "schema": {
+                            "type": "",
+                            "format": ""
+                        }
+                    }
+                ] 
+            },
+            {
+                "name": "eth_sendRawTransaction",
+                "description": "", 
+                "params": [
+                    {
+                        "name": "",
+                        "description": "",
+                        "schema": {
+                            "type": "",
+                            "format": ""
+                        }
+                    }
+                ] 
+            },
+            {
+                "name": "eth_sendTransaction",
+                "description": "", 
+                "params": [
+                    {
+                        "name": "",
+                        "description": "",
+                        "schema": {
+                            "type": "",
+                            "format": ""
+                        }
+                    }
+                ] 
+            },
+            {
+                "name": "eth_sign",
+                "description": "", 
+                "params": [
+                    {
+                        "name": "",
+                        "description": "",
+                        "schema": {
+                            "type": "",
+                            "format": ""
+                        }
+                    }
+                ] 
+            },
+            {
+                "name": "eth_signTransaction",
+                "description": "", 
+                "params": [
+                    {
+                        "name": "",
+                        "description": "",
+                        "schema": {
+                            "type": "",
+                            "format": ""
+                        }
+                    }
+                ] 
+            },
+            {
+                "name": "eth_submitHashRate",
+                "description": "", 
+                "params": [
+                    {
+                        "name": "",
+                        "description": "",
+                        "schema": {
+                            "type": "",
+                            "format": ""
+                        }
+                    }
+                ] 
+            },
+            {
+                "name": "eth_submitWork",
+                "description": "", 
+                "params": [
+                    {
+                        "name": "",
+                        "description": "",
+                        "schema": {
+                            "type": "",
+                            "format": ""
+                        }
+                    }
+                ] 
+            },
+            {
+                "name": "eth_subscribeSyncStatus",
+                "description": "", 
+                "params": [
+                    {
+                        "name": "",
+                        "description": "",
+                        "schema": {
+                            "type": "",
+                            "format": ""
+                        }
+                    }
+                ] 
+            },
+            {
+                "name": "eth_syncing",
+                "description": "", 
+                "params": [
+                    {
+                        "name": "",
+                        "description": "",
+                        "schema": {
+                            "type": "",
+                            "format": ""
+                        }
+                    }
+                ] 
+            },
+            {
+                "name": "eth_uninstallFilter",
+                "description": "", 
+                "params": [
+                    {
+                        "name": "",
+                        "description": "",
+                        "schema": {
+                            "type": "",
+                            "format": ""
+                        }
+                    }
+                ] 
+            },
+            {
+                "name": "miner_getHashrate",
+                "description": "", 
+                "params": [
+                    {
+                        "name": "",
+                        "description": "",
+                        "schema": {
+                            "type": "",
+                            "format": ""
+                        }
+                    }
+                ] 
+            },
+            {
+                "name": "miner_setEtherbase",
+                "description": "", 
+                "params": [
+                    {
+                        "name": "",
+                        "description": "",
+                        "schema": {
+                            "type": "",
+                            "format": ""
+                        }
+                    }
+                ] 
+            },
+            {
+                "name": "miner_setExtra",
+                "description": "", 
+                "params": [
+                    {
+                        "name": "",
+                        "description": "",
+                        "schema": {
+                            "type": "",
+                            "format": ""
+                        }
+                    }
+                ] 
+            },
+            {
+                "name": "miner_setGasPrice",
+                "description": "", 
+                "params": [
+                    {
+                        "name": "",
+                        "description": "",
+                        "schema": {
+                            "type": "",
+                            "format": ""
+                        }
+                    }
+                ] 
+            },
+            {
+                "name": "miner_setRecommitInterval",
+                "description": "", 
+                "params": [
+                    {
+                        "name": "",
+                        "description": "",
+                        "schema": {
+                            "type": "",
+                            "format": ""
+                        }
+                    }
+                ] 
+            },
+            {
+                "name": "miner_start",
+                "description": "", 
+                "params": [
+                    {
+                        "name": "",
+                        "description": "",
+                        "schema": {
+                            "type": "",
+                            "format": ""
+                        }
+                    }
+                ] 
+            },
+            {
+                "name": "miner_stop",
+                "description": "", 
+                "params": [
+                    {
+                        "name": "",
+                        "description": "",
+                        "schema": {
+                            "type": "",
+                            "format": ""
+                        }
+                    }
+                ] 
+            },
+            {
+                "name": "miner_stop",
+                "description": "", 
+                "params": [
+                    {
+                        "name": "",
+                        "description": "",
+                        "schema": {
+                            "type": "",
+                            "format": ""
+                        }
+                    }
+                ] 
+            },
+            {
+                "name": "net_listening",
+                "description": "", 
+                "params": [
+                    {
+                        "name": "",
+                        "description": "",
+                        "schema": {
+                            "type": "",
+                            "format": ""
+                        }
+                    }
+                ] 
+            },
+            {
+                "name": "net_peerCount",
+                "description": "", 
+                "params": [
+                    {
+                        "name": "",
+                        "description": "",
+                        "schema": {
+                            "type": "",
+                            "format": ""
+                        }
+                    }
+                ] 
+            },
+            {
+                "name": "net_version",
+                "description": "", 
+                "params": [
+                    {
+                        "name": "",
+                        "description": "",
+                        "schema": {
+                            "type": "",
+                            "format": ""
+                        }
+                    }
+                ] 
+            },
+            {
+                "name": "personal_deriveAccount",
+                "description": "", 
+                "params": [
+                    {
+                        "name": "",
+                        "description": "",
+                        "schema": {
+                            "type": "",
+                            "format": ""
+                        }
+                    }
+                ] 
+            },
+            {
+                "name": "personal_ecRecover",
+                "description": "", 
+                "params": [
+                    {
+                        "name": "",
+                        "description": "",
+                        "schema": {
+                            "type": "",
+                            "format": ""
+                        }
+                    }
+                ] 
+            },
+            {
+                "name": "personal_importRawKey",
+                "description": "", 
+                "params": [
+                    {
+                        "name": "",
+                        "description": "",
+                        "schema": {
+                            "type": "",
+                            "format": ""
+                        }
+                    }
+                ] 
+            },
+            {
+                "name": "personal_listAccounts",
+                "description": "", 
+                "params": [
+                    {
+                        "name": "",
+                        "description": "",
+                        "schema": {
+                            "type": "",
+                            "format": ""
+                        }
+                    }
+                ] 
+            },
+            {
+                "name": "personal_listWallets",
+                "description": "", 
+                "params": [
+                    {
+                        "name": "",
+                        "description": "",
+                        "schema": {
+                            "type": "",
+                            "format": ""
+                        }
+                    }
+                ] 
+            },
+            {
+                "name": "personal_lockAccount",
+                "description": "", 
+                "params": [
+                    {
+                        "name": "",
+                        "description": "",
+                        "schema": {
+                            "type": "",
+                            "format": ""
+                        }
+                    }
+                ] 
+            },
+            {
+                "name": "personal_newAccount",
+                "description": "", 
+                "params": [
+                    {
+                        "name": "",
+                        "description": "",
+                        "schema": {
+                            "type": "",
+                            "format": ""
+                        }
+                    }
+                ] 
+            },
+            {
+                "name": "personal_openWallet",
+                "description": "", 
+                "params": [
+                    {
+                        "name": "",
+                        "description": "",
+                        "schema": {
+                            "type": "",
+                            "format": ""
+                        }
+                    }
+                ] 
+            },
+            {
+                "name": "personal_sendTransaction",
+                "description": "", 
+                "params": [
+                    {
+                        "name": "",
+                        "description": "",
+                        "schema": {
+                            "type": "",
+                            "format": ""
+                        }
+                    }
+                ] 
+            },
+            {
+                "name": "personal_sign",
+                "description": "", 
+                "params": [
+                    {
+                        "name": "",
+                        "description": "",
+                        "schema": {
+                            "type": "",
+                            "format": ""
+                        }
+                    }
+                ] 
+            },
+            {
+                "name": "personal_signAndSendTransaction",
+                "description": "", 
+                "params": [
+                    {
+                        "name": "",
+                        "description": "",
+                        "schema": {
+                            "type": "",
+                            "format": ""
+                        }
+                    }
+                ] 
+            },
+            {
+                "name": "personal_signTransaction",
+                "description": "", 
+                "params": [
+                    {
+                        "name": "",
+                        "description": "",
+                        "schema": {
+                            "type": "",
+                            "format": ""
+                        }
+                    }
+                ] 
+            },
+            {
+                "name": "personal_unlockAccount",
+                "description": "", 
+                "params": [
+                    {
+                        "name": "",
+                        "description": "",
+                        "schema": {
+                            "type": "",
+                            "format": ""
+                        }
+                    }
+                ] 
+            },
+            {
+                "name": "txpool_content",
+                "description": "", 
+                "params": [
+                    {
+                        "name": "",
+                        "description": "",
+                        "schema": {
+                            "type": "",
+                            "format": ""
+                        }
+                    }
+                ] 
+            },
+            {
+                "name": "txpool_inspect",
+                "description": "", 
+                "params": [
+                    {
+                        "name": "",
+                        "description": "",
+                        "schema": {
+                            "type": "",
+                            "format": ""
+                        }
+                    }
+                ] 
+            },
+            {
+                "name": "txpool_status",
+                "description": "", 
+                "params": [
+                    {
+                        "name": "",
+                        "description": "",
+                        "schema": {
+                            "type": "",
+                            "format": ""
+                        }
+                    }
+                ] 
             }
-            ,
-            {"admin_importChain": {
-                "post": {
-                    "parameters": [
-                        {
-                            "name": "string",
-                            "schema": {
-                                "$ref": "string"
-                            }
-                        }
-                    ],
-                    "responses": {
-                        "200": {
-                            "content": {
-                                "application/json": {
-                                    "schema": {
-                                        "$ref": "error"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "debug_chaindbCompact": {
-                "post": {
-                    "responses": {
-                        "200": {
-                            "content": {
-                                "application/json": {
-                                    "schema": {
-                                        "$ref": "error"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "debug_chaindbProperty": {
-                "post": {
-                    "parameters": [
-                        {
-                            "name": "string",
-                            "schema": {
-                                "$ref": "string"
-                            }
-                        }
-                    ],
-                    "responses": {
-                        "200": {
-                            "content": {
-                                "application/json": {
-                                    "schema": {
-                                        "$ref": "error"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "debug_dumpBlock": {
-                "post": {
-                    "parameters": [
-                        {
-                            "name": "BlockNumber",
-                            "schema": {
-                                "$ref": "BlockNumber"
-                            }
-                        }
-                    ],
-                    "responses": {
-                        "200": {
-                            "content": {
-                                "application/json": {
-                                    "schema": {
-                                        "$ref": "error"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "debug_getBadBlocks": {
-                "post": {
-                    "responses": {
-                        "200": {
-                            "content": {
-                                "application/json": {
-                                    "schema": {
-                                        "$ref": "error"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "debug_getBlockRlp": {
-                "post": {
-                    "parameters": [
-                        {
-                            "name": "uint64",
-                            "schema": {
-                                "$ref": "uint64"
-                            }
-                        }
-                    ],
-                    "responses": {
-                        "200": {
-                            "content": {
-                                "application/json": {
-                                    "schema": {
-                                        "$ref": "error"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "debug_getModifiedAccountsByHash": {
-                "post": {
-                    "parameters": [
-                        {
-                            "name": "Hash",
-                            "schema": {
-                                "$ref": "Hash"
-                            }
-                        }
-                    ],
-                    "responses": {
-                        "200": {
-                            "content": {
-                                "application/json": {
-                                    "schema": {
-                                        "$ref": "error"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "debug_getModifiedAccountsByNumber": {
-                "post": {
-                    "parameters": [
-                        {
-                            "name": "uint64",
-                            "schema": {
-                                "$ref": "uint64"
-                            }
-                        }
-                    ],
-                    "responses": {
-                        "200": {
-                            "content": {
-                                "application/json": {
-                                    "schema": {
-                                        "$ref": "error"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "debug_preimage": {
-                "post": {
-                    "parameters": [
-                        {
-                            "name": "Hash",
-                            "schema": {
-                                "$ref": "Hash"
-                            }
-                        }
-                    ],
-                    "responses": {
-                        "200": {
-                            "content": {
-                                "application/json": {
-                                    "schema": {
-                                        "$ref": "error"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "debug_printBlock": {
-                "post": {
-                    "parameters": [
-                        {
-                            "name": "uint64",
-                            "schema": {
-                                "$ref": "uint64"
-                            }
-                        }
-                    ],
-                    "responses": {
-                        "200": {
-                            "content": {
-                                "application/json": {
-                                    "schema": {
-                                        "$ref": "error"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "debug_seedHash": {
-                "post": {
-                    "parameters": [
-                        {
-                            "name": "uint64",
-                            "schema": {
-                                "$ref": "uint64"
-                            }
-                        }
-                    ],
-                    "responses": {
-                        "200": {
-                            "content": {
-                                "application/json": {
-                                    "schema": {
-                                        "$ref": "error"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "debug_setHead": {
-                "post": {
-                    "parameters": [
-                        {
-                            "name": "Uint64",
-                            "schema": {
-                                "$ref": "Uint64"
-                            }
-                        }
-                    ]
-                }
-            },
-            "debug_standardTraceBadBlockToFile": {
-                "post": {
-                    "parameters": [
-                        {
-                            "name": "Hash",
-                            "schema": {
-                                "$ref": "Hash"
-                            }
-                        }
-                    ],
-                    "responses": {
-                        "200": {
-                            "content": {
-                                "application/json": {
-                                    "schema": {
-                                        "$ref": "error"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "debug_standardTraceBlockToFile": {
-                "post": {
-                    "parameters": [
-                        {
-                            "name": "Hash",
-                            "schema": {
-                                "$ref": "Hash"
-                            }
-                        }
-                    ],
-                    "responses": {
-                        "200": {
-                            "content": {
-                                "application/json": {
-                                    "schema": {
-                                        "$ref": "error"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "debug_storageRangeAt": {
-                "post": {
-                    "parameters": [
-                        {
-                            "name": "Hash",
-                            "schema": {
-                                "$ref": "Hash"
-                            }
-                        },
-                        {
-                            "name": "int",
-                            "schema": {
-                                "$ref": "int"
-                            }
-                        },
-                        {
-                            "name": "Address",
-                            "schema": {
-                                "$ref": "Address"
-                            }
-                        },
-                        {
-                            "name": "Bytes",
-                            "schema": {
-                                "$ref": "Bytes"
-                            }
-                        },
-                        {
-                            "name": "int",
-                            "schema": {
-                                "$ref": "int"
-                            }
-                        }
-                    ],
-                    "responses": {
-                        "200": {
-                            "content": {
-                                "application/json": {
-                                    "schema": {
-                                        "$ref": "error"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "debug_traceBadBlock": {
-                "post": {
-                    "parameters": [
-                        {
-                            "name": "Hash",
-                            "schema": {
-                                "$ref": "Hash"
-                            }
-                        }
-                    ],
-                    "responses": {
-                        "200": {
-                            "content": {
-                                "application/json": {
-                                    "schema": {
-                                        "$ref": "error"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "debug_traceBlock": {
-                "post": {
-                    "responses": {
-                        "200": {
-                            "content": {
-                                "application/json": {
-                                    "schema": {
-                                        "$ref": "error"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "debug_traceBlockByHash": {
-                "post": {
-                    "parameters": [
-                        {
-                            "name": "Hash",
-                            "schema": {
-                                "$ref": "Hash"
-                            }
-                        }
-                    ],
-                    "responses": {
-                        "200": {
-                            "content": {
-                                "application/json": {
-                                    "schema": {
-                                        "$ref": "error"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "debug_traceBlockByNumber": {
-                "post": {
-                    "parameters": [
-                        {
-                            "name": "BlockNumber",
-                            "schema": {
-                                "$ref": "BlockNumber"
-                            }
-                        }
-                    ],
-                    "responses": {
-                        "200": {
-                            "content": {
-                                "application/json": {
-                                    "schema": {
-                                        "$ref": "error"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "debug_traceBlockFromFile": {
-                "post": {
-                    "parameters": [
-                        {
-                            "name": "string",
-                            "schema": {
-                                "$ref": "string"
-                            }
-                        }
-                    ],
-                    "responses": {
-                        "200": {
-                            "content": {
-                                "application/json": {
-                                    "schema": {
-                                        "$ref": "error"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "debug_traceChain": {
-                "post": {
-                    "parameters": [
-                        {
-                            "name": "BlockNumber",
-                            "schema": {
-                                "$ref": "BlockNumber"
-                            }
-                        },
-                        {
-                            "name": "BlockNumber",
-                            "schema": {
-                                "$ref": "BlockNumber"
-                            }
-                        }
-                    ],
-                    "responses": {
-                        "200": {
-                            "content": {
-                                "application/json": {
-                                    "schema": {
-                                        "$ref": "error"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "debug_traceTransaction": {
-                "post": {
-                    "parameters": [
-                        {
-                            "name": "Hash",
-                            "schema": {
-                                "$ref": "Hash"
-                            }
-                        }
-                    ],
-                    "responses": {
-                        "200": {
-                            "content": {
-                                "application/json": {
-                                    "schema": {
-                                        "$ref": "error"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "eth_accounts": {
-                "post": {}
-            },
-            "eth_blockNumber": {
-                "post": {
-                    "responses": {
-                        "200": {
-                            "content": {
-                                "application/json": {
-                                    "schema": {
-                                        "$ref": "Uint64"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "eth_call": {
-                "post": {
-                    "parameters": [
-                        {
-                            "name": "BlockNumber",
-                            "schema": {
-                                "$ref": "BlockNumber"
-                            }
-                        }
-                    ],
-                    "responses": {
-                        "200": {
-                            "content": {
-                                "application/json": {
-                                    "schema": {
-                                        "$ref": "error"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "eth_chainId": {
-                "post": {
-                    "responses": {
-                        "200": {
-                            "content": {
-                                "application/json": {
-                                    "schema": {
-                                        "$ref": "Uint64"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "eth_coinbase": {
-                "post": {
-                    "responses": {
-                        "200": {
-                            "content": {
-                                "application/json": {
-                                    "schema": {
-                                        "$ref": "error"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "eth_estimateGas": {
-                "post": {
-                    "responses": {
-                        "200": {
-                            "content": {
-                                "application/json": {
-                                    "schema": {
-                                        "$ref": "error"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "eth_etherbase": {
-                "post": {
-                    "responses": {
-                        "200": {
-                            "content": {
-                                "application/json": {
-                                    "schema": {
-                                        "$ref": "error"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "eth_gasPrice": {
-                "post": {
-                    "responses": {
-                        "200": {
-                            "content": {
-                                "application/json": {
-                                    "schema": {
-                                        "$ref": "error"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "eth_getBalance": {
-                "post": {
-                    "parameters": [
-                        {
-                            "name": "Address",
-                            "schema": {
-                                "$ref": "Address"
-                            }
-                        },
-                        {
-                            "name": "BlockNumber",
-                            "schema": {
-                                "$ref": "BlockNumber"
-                            }
-                        }
-                    ],
-                    "responses": {
-                        "200": {
-                            "content": {
-                                "application/json": {
-                                    "schema": {
-                                        "$ref": "error"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "eth_getBlockByHash": {
-                "post": {
-                    "parameters": [
-                        {
-                            "name": "Hash",
-                            "schema": {
-                                "$ref": "Hash"
-                            }
-                        },
-                        {
-                            "name": "bool",
-                            "schema": {
-                                "$ref": "bool"
-                            }
-                        }
-                    ],
-                    "responses": {
-                        "200": {
-                            "content": {
-                                "application/json": {
-                                    "schema": {
-                                        "$ref": "error"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "eth_getBlockByNumber": {
-                "post": {
-                    "parameters": [
-                        {
-                            "name": "BlockNumber",
-                            "schema": {
-                                "$ref": "BlockNumber"
-                            }
-                        },
-                        {
-                            "name": "bool",
-                            "schema": {
-                                "$ref": "bool"
-                            }
-                        }
-                    ],
-                    "responses": {
-                        "200": {
-                            "content": {
-                                "application/json": {
-                                    "schema": {
-                                        "$ref": "error"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "eth_getBlockTransactionCountByHash": {
-                "post": {
-                    "parameters": [
-                        {
-                            "name": "Hash",
-                            "schema": {
-                                "$ref": "Hash"
-                            }
-                        }
-                    ]
-                }
-            },
-            "eth_getBlockTransactionCountByNumber": {
-                "post": {
-                    "parameters": [
-                        {
-                            "name": "BlockNumber",
-                            "schema": {
-                                "$ref": "BlockNumber"
-                            }
-                        }
-                    ]
-                }
-            },
-            "eth_getCode": {
-                "post": {
-                    "parameters": [
-                        {
-                            "name": "Address",
-                            "schema": {
-                                "$ref": "Address"
-                            }
-                        },
-                        {
-                            "name": "BlockNumber",
-                            "schema": {
-                                "$ref": "BlockNumber"
-                            }
-                        }
-                    ],
-                    "responses": {
-                        "200": {
-                            "content": {
-                                "application/json": {
-                                    "schema": {
-                                        "$ref": "error"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "eth_getFilterChanges": {
-                "post": {
-                    "responses": {
-                        "200": {
-                            "content": {
-                                "application/json": {
-                                    "schema": {
-                                        "$ref": "error"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "eth_getFilterLogs": {
-                "post": {
-                    "responses": {
-                        "200": {
-                            "content": {
-                                "application/json": {
-                                    "schema": {
-                                        "$ref": "error"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "eth_getHashrate": {
-                "post": {
-                    "responses": {
-                        "200": {
-                            "content": {
-                                "application/json": {
-                                    "schema": {
-                                        "$ref": "uint64"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "eth_getLogs": {
-                "post": {
-                    "responses": {
-                        "200": {
-                            "content": {
-                                "application/json": {
-                                    "schema": {
-                                        "$ref": "error"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "eth_getProof": {
-                "post": {
-                    "parameters": [
-                        {
-                            "name": "Address",
-                            "schema": {
-                                "$ref": "Address"
-                            }
-                        },
-                        {
-                            "name": "BlockNumber",
-                            "schema": {
-                                "$ref": "BlockNumber"
-                            }
-                        }
-                    ],
-                    "responses": {
-                        "200": {
-                            "content": {
-                                "application/json": {
-                                    "schema": {
-                                        "$ref": "error"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "eth_getRawTransactionByBlockHashAndIndex": {
-                "post": {
-                    "parameters": [
-                        {
-                            "name": "Hash",
-                            "schema": {
-                                "$ref": "Hash"
-                            }
-                        }
-                    ],
-                    "responses": {
-                        "200": {
-                            "content": {
-                                "application/json": {
-                                    "schema": {
-                                        "$ref": "Bytes"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "eth_getRawTransactionByBlockNumberAndIndex": {
-                "post": {
-                    "parameters": [
-                        {
-                            "name": "BlockNumber",
-                            "schema": {
-                                "$ref": "BlockNumber"
-                            }
-                        }
-                    ],
-                    "responses": {
-                        "200": {
-                            "content": {
-                                "application/json": {
-                                    "schema": {
-                                        "$ref": "Bytes"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "eth_getRawTransactionByHash": {
-                "post": {
-                    "parameters": [
-                        {
-                            "name": "Hash",
-                            "schema": {
-                                "$ref": "Hash"
-                            }
-                        }
-                    ],
-                    "responses": {
-                        "200": {
-                            "content": {
-                                "application/json": {
-                                    "schema": {
-                                        "$ref": "error"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "eth_getStorageAt": {
-                "post": {
-                    "parameters": [
-                        {
-                            "name": "Address",
-                            "schema": {
-                                "$ref": "Address"
-                            }
-                        },
-                        {
-                            "name": "string",
-                            "schema": {
-                                "$ref": "string"
-                            }
-                        },
-                        {
-                            "name": "BlockNumber",
-                            "schema": {
-                                "$ref": "BlockNumber"
-                            }
-                        }
-                    ],
-                    "responses": {
-                        "200": {
-                            "content": {
-                                "application/json": {
-                                    "schema": {
-                                        "$ref": "error"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "eth_getTransactionByBlockHashAndIndex": {
-                "post": {
-                    "parameters": [
-                        {
-                            "name": "Hash",
-                            "schema": {
-                                "$ref": "Hash"
-                            }
-                        }
-                    ]
-                }
-            },
-            "eth_getTransactionByBlockNumberAndIndex": {
-                "post": {
-                    "parameters": [
-                        {
-                            "name": "BlockNumber",
-                            "schema": {
-                                "$ref": "BlockNumber"
-                            }
-                        }
-                    ]
-                }
-            },
-            "eth_getTransactionByHash": {
-                "post": {
-                    "parameters": [
-                        {
-                            "name": "Hash",
-                            "schema": {
-                                "$ref": "Hash"
-                            }
-                        }
-                    ]
-                }
-            },
-            "eth_getTransactionCount": {
-                "post": {
-                    "parameters": [
-                        {
-                            "name": "Address",
-                            "schema": {
-                                "$ref": "Address"
-                            }
-                        },
-                        {
-                            "name": "BlockNumber",
-                            "schema": {
-                                "$ref": "BlockNumber"
-                            }
-                        }
-                    ],
-                    "responses": {
-                        "200": {
-                            "content": {
-                                "application/json": {
-                                    "schema": {
-                                        "$ref": "error"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "eth_getTransactionReceipt": {
-                "post": {
-                    "parameters": [
-                        {
-                            "name": "Hash",
-                            "schema": {
-                                "$ref": "Hash"
-                            }
-                        }
-                    ],
-                    "responses": {
-                        "200": {
-                            "content": {
-                                "application/json": {
-                                    "schema": {
-                                        "$ref": "error"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "eth_getUncleByBlockHashAndIndex": {
-                "post": {
-                    "parameters": [
-                        {
-                            "name": "Hash",
-                            "schema": {
-                                "$ref": "Hash"
-                            }
-                        }
-                    ],
-                    "responses": {
-                        "200": {
-                            "content": {
-                                "application/json": {
-                                    "schema": {
-                                        "$ref": "error"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "eth_getUncleByBlockNumberAndIndex": {
-                "post": {
-                    "parameters": [
-                        {
-                            "name": "BlockNumber",
-                            "schema": {
-                                "$ref": "BlockNumber"
-                            }
-                        }
-                    ],
-                    "responses": {
-                        "200": {
-                            "content": {
-                                "application/json": {
-                                    "schema": {
-                                        "$ref": "error"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "eth_getUncleCountByBlockHash": {
-                "post": {
-                    "parameters": [
-                        {
-                            "name": "Hash",
-                            "schema": {
-                                "$ref": "Hash"
-                            }
-                        }
-                    ]
-                }
-            },
-            "eth_getUncleCountByBlockNumber": {
-                "post": {
-                    "parameters": [
-                        {
-                            "name": "BlockNumber",
-                            "schema": {
-                                "$ref": "BlockNumber"
-                            }
-                        }
-                    ]
-                }
-            },
-            "eth_getWork": {
-                "post": {
-                    "responses": {
-                        "200": {
-                            "content": {
-                                "application/json": {
-                                    "schema": {
-                                        "$ref": "error"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "eth_hashrate": {
-                "post": {
-                    "responses": {
-                        "200": {
-                            "content": {
-                                "application/json": {
-                                    "schema": {
-                                        "$ref": "Uint64"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "eth_logs": {
-                "post": {
-                    "responses": {
-                        "200": {
-                            "content": {
-                                "application/json": {
-                                    "schema": {
-                                        "$ref": "error"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "eth_mining": {
-                "post": {
-                    "responses": {
-                        "200": {
-                            "content": {
-                                "application/json": {
-                                    "schema": {
-                                        "$ref": "bool"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "eth_newBlockFilter": {
-                "post": {}
-            },
-            "eth_newFilter": {
-                "post": {
-                    "responses": {
-                        "200": {
-                            "content": {
-                                "application/json": {
-                                    "schema": {
-                                        "$ref": "error"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "eth_newHeads": {
-                "post": {
-                    "responses": {
-                        "200": {
-                            "content": {
-                                "application/json": {
-                                    "schema": {
-                                        "$ref": "error"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "eth_newPendingTransactionFilter": {
-                "post": {}
-            },
-            "eth_newPendingTransactions": {
-                "post": {
-                    "responses": {
-                        "200": {
-                            "content": {
-                                "application/json": {
-                                    "schema": {
-                                        "$ref": "error"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "eth_pendingTransactions": {
-                "post": {
-                    "responses": {
-                        "200": {
-                            "content": {
-                                "application/json": {
-                                    "schema": {
-                                        "$ref": "error"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "eth_protocolVersion": {
-                "post": {}
-            },
-            "eth_resend": {
-                "post": {
-                    "responses": {
-                        "200": {
-                            "content": {
-                                "application/json": {
-                                    "schema": {
-                                        "$ref": "error"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "eth_sendRawTransaction": {
-                "post": {
-                    "parameters": [
-                        {
-                            "name": "Bytes",
-                            "schema": {
-                                "$ref": "Bytes"
-                            }
-                        }
-                    ],
-                    "responses": {
-                        "200": {
-                            "content": {
-                                "application/json": {
-                                    "schema": {
-                                        "$ref": "error"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "eth_sendTransaction": {
-                "post": {
-                    "responses": {
-                        "200": {
-                            "content": {
-                                "application/json": {
-                                    "schema": {
-                                        "$ref": "error"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "eth_sign": {
-                "post": {
-                    "parameters": [
-                        {
-                            "name": "Address",
-                            "schema": {
-                                "$ref": "Address"
-                            }
-                        },
-                        {
-                            "name": "Bytes",
-                            "schema": {
-                                "$ref": "Bytes"
-                            }
-                        }
-                    ],
-                    "responses": {
-                        "200": {
-                            "content": {
-                                "application/json": {
-                                    "schema": {
-                                        "$ref": "error"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "eth_signTransaction": {
-                "post": {
-                    "responses": {
-                        "200": {
-                            "content": {
-                                "application/json": {
-                                    "schema": {
-                                        "$ref": "error"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "eth_submitHashRate": {
-                "post": {
-                    "parameters": [
-                        {
-                            "name": "Uint64",
-                            "schema": {
-                                "$ref": "Uint64"
-                            }
-                        },
-                        {
-                            "name": "Hash",
-                            "schema": {
-                                "$ref": "Hash"
-                            }
-                        }
-                    ],
-                    "responses": {
-                        "200": {
-                            "content": {
-                                "application/json": {
-                                    "schema": {
-                                        "$ref": "bool"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "eth_submitWork": {
-                "post": {
-                    "parameters": [
-                        {
-                            "name": "Hash",
-                            "schema": {
-                                "$ref": "Hash"
-                            }
-                        },
-                        {
-                            "name": "Hash",
-                            "schema": {
-                                "$ref": "Hash"
-                            }
-                        }
-                    ],
-                    "responses": {
-                        "200": {
-                            "content": {
-                                "application/json": {
-                                    "schema": {
-                                        "$ref": "bool"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "eth_subscribeSyncStatus": {
-                "post": {}
-            },
-            "eth_syncing": {
-                "post": {
-                    "responses": {
-                        "200": {
-                            "content": {
-                                "application/json": {
-                                    "schema": {
-                                        "$ref": "error"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "eth_uninstallFilter": {
-                "post": {
-                    "responses": {
-                        "200": {
-                            "content": {
-                                "application/json": {
-                                    "schema": {
-                                        "$ref": "bool"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "ethash_getHashrate": {
-                "post": {
-                    "responses": {
-                        "200": {
-                            "content": {
-                                "application/json": {
-                                    "schema": {
-                                        "$ref": "uint64"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "ethash_getWork": {
-                "post": {
-                    "responses": {
-                        "200": {
-                            "content": {
-                                "application/json": {
-                                    "schema": {
-                                        "$ref": "error"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "ethash_submitHashRate": {
-                "post": {
-                    "parameters": [
-                        {
-                            "name": "Uint64",
-                            "schema": {
-                                "$ref": "Uint64"
-                            }
-                        },
-                        {
-                            "name": "Hash",
-                            "schema": {
-                                "$ref": "Hash"
-                            }
-                        }
-                    ],
-                    "responses": {
-                        "200": {
-                            "content": {
-                                "application/json": {
-                                    "schema": {
-                                        "$ref": "bool"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "ethash_submitWork": {
-                "post": {
-                    "parameters": [
-                        {
-                            "name": "Hash",
-                            "schema": {
-                                "$ref": "Hash"
-                            }
-                        },
-                        {
-                            "name": "Hash",
-                            "schema": {
-                                "$ref": "Hash"
-                            }
-                        }
-                    ],
-                    "responses": {
-                        "200": {
-                            "content": {
-                                "application/json": {
-                                    "schema": {
-                                        "$ref": "bool"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "miner_getHashrate": {
-                "post": {
-                    "responses": {
-                        "200": {
-                            "content": {
-                                "application/json": {
-                                    "schema": {
-                                        "$ref": "uint64"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "miner_setEtherbase": {
-                "post": {
-                    "parameters": [
-                        {
-                            "name": "Address",
-                            "schema": {
-                                "$ref": "Address"
-                            }
-                        }
-                    ],
-                    "responses": {
-                        "200": {
-                            "content": {
-                                "application/json": {
-                                    "schema": {
-                                        "$ref": "bool"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "miner_setExtra": {
-                "post": {
-                    "parameters": [
-                        {
-                            "name": "string",
-                            "schema": {
-                                "$ref": "string"
-                            }
-                        }
-                    ],
-                    "responses": {
-                        "200": {
-                            "content": {
-                                "application/json": {
-                                    "schema": {
-                                        "$ref": "error"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "miner_setGasPrice": {
-                "post": {
-                    "parameters": [
-                        {
-                            "name": "Big",
-                            "schema": {
-                                "$ref": "Big"
-                            }
-                        }
-                    ],
-                    "responses": {
-                        "200": {
-                            "content": {
-                                "application/json": {
-                                    "schema": {
-                                        "$ref": "bool"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "miner_setRecommitInterval": {
-                "post": {
-                    "parameters": [
-                        {
-                            "name": "int",
-                            "schema": {
-                                "$ref": "int"
-                            }
-                        }
-                    ]
-                }
-            },
-            "miner_start": {
-                "post": {
-                    "responses": {
-                        "200": {
-                            "content": {
-                                "application/json": {
-                                    "schema": {
-                                        "$ref": "error"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "miner_stop": {
-                "post": {}
-            },
-            "net_listening": {
-                "post": {
-                    "responses": {
-                        "200": {
-                            "content": {
-                                "application/json": {
-                                    "schema": {
-                                        "$ref": "bool"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "net_peerCount": {
-                "post": {}
-            },
-            "net_version": {
-                "post": {
-                    "responses": {
-                        "200": {
-                            "content": {
-                                "application/json": {
-                                    "schema": {
-                                        "$ref": "string"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "personal_deriveAccount": {
-                "post": {
-                    "parameters": [
-                        {
-                            "name": "string",
-                            "schema": {
-                                "$ref": "string"
-                            }
-                        },
-                        {
-                            "name": "string",
-                            "schema": {
-                                "$ref": "string"
-                            }
-                        }
-                    ],
-                    "responses": {
-                        "200": {
-                            "content": {
-                                "application/json": {
-                                    "schema": {
-                                        "$ref": "error"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "personal_ecRecover": {
-                "post": {
-                    "parameters": [
-                        {
-                            "name": "Bytes",
-                            "schema": {
-                                "$ref": "Bytes"
-                            }
-                        },
-                        {
-                            "name": "Bytes",
-                            "schema": {
-                                "$ref": "Bytes"
-                            }
-                        }
-                    ],
-                    "responses": {
-                        "200": {
-                            "content": {
-                                "application/json": {
-                                    "schema": {
-                                        "$ref": "error"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "personal_importRawKey": {
-                "post": {
-                    "parameters": [
-                        {
-                            "name": "string",
-                            "schema": {
-                                "$ref": "string"
-                            }
-                        },
-                        {
-                            "name": "string",
-                            "schema": {
-                                "$ref": "string"
-                            }
-                        }
-                    ],
-                    "responses": {
-                        "200": {
-                            "content": {
-                                "application/json": {
-                                    "schema": {
-                                        "$ref": "error"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "personal_listAccounts": {
-                "post": {}
-            },
-            "personal_listWallets": {
-                "post": {}
-            },
-            "personal_lockAccount": {
-                "post": {
-                    "parameters": [
-                        {
-                            "name": "Address",
-                            "schema": {
-                                "$ref": "Address"
-                            }
-                        }
-                    ],
-                    "responses": {
-                        "200": {
-                            "content": {
-                                "application/json": {
-                                    "schema": {
-                                        "$ref": "bool"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "personal_newAccount": {
-                "post": {
-                    "parameters": [
-                        {
-                            "name": "string",
-                            "schema": {
-                                "$ref": "string"
-                            }
-                        }
-                    ],
-                    "responses": {
-                        "200": {
-                            "content": {
-                                "application/json": {
-                                    "schema": {
-                                        "$ref": "error"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "personal_openWallet": {
-                "post": {
-                    "parameters": [
-                        {
-                            "name": "string",
-                            "schema": {
-                                "$ref": "string"
-                            }
-                        }
-                    ],
-                    "responses": {
-                        "200": {
-                            "content": {
-                                "application/json": {
-                                    "schema": {
-                                        "$ref": "error"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "personal_sendTransaction": {
-                "post": {
-                    "parameters": [
-                        {
-                            "name": "string",
-                            "schema": {
-                                "$ref": "string"
-                            }
-                        }
-                    ],
-                    "responses": {
-                        "200": {
-                            "content": {
-                                "application/json": {
-                                    "schema": {
-                                        "$ref": "error"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "personal_sign": {
-                "post": {
-                    "parameters": [
-                        {
-                            "name": "Bytes",
-                            "schema": {
-                                "$ref": "Bytes"
-                            }
-                        },
-                        {
-                            "name": "Address",
-                            "schema": {
-                                "$ref": "Address"
-                            }
-                        },
-                        {
-                            "name": "string",
-                            "schema": {
-                                "$ref": "string"
-                            }
-                        }
-                    ],
-                    "responses": {
-                        "200": {
-                            "content": {
-                                "application/json": {
-                                    "schema": {
-                                        "$ref": "error"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "personal_signAndSendTransaction": {
-                "post": {
-                    "parameters": [
-                        {
-                            "name": "string",
-                            "schema": {
-                                "$ref": "string"
-                            }
-                        }
-                    ],
-                    "responses": {
-                        "200": {
-                            "content": {
-                                "application/json": {
-                                    "schema": {
-                                        "$ref": "error"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "personal_signTransaction": {
-                "post": {
-                    "parameters": [
-                        {
-                            "name": "string",
-                            "schema": {
-                                "$ref": "string"
-                            }
-                        }
-                    ],
-                    "responses": {
-                        "200": {
-                            "content": {
-                                "application/json": {
-                                    "schema": {
-                                        "$ref": "error"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "personal_unlockAccount": {
-                "post": {
-                    "parameters": [
-                        {
-                            "name": "Address",
-                            "schema": {
-                                "$ref": "Address"
-                            }
-                        },
-                        {
-                            "name": "string",
-                            "schema": {
-                                "$ref": "string"
-                            }
-                        }
-                    ],
-                    "responses": {
-                        "200": {
-                            "content": {
-                                "application/json": {
-                                    "schema": {
-                                        "$ref": "error"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "txpool_content": {
-                "post": {}
-            },
-            "txpool_inspect": {
-                "post": {}
-            },
-            "txpool_status": {
-                "post": {}
-            }
-        }
-    ]
+        ],
 }
