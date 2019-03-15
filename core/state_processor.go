@@ -370,7 +370,7 @@ func MakeSputnikVMPatch(config *params.ChainConfig, header *types.Header) sputni
 		GasSuicide:                  toBigInt(gasTable.Suicide),
 		GasSuicideNewAccount:        toBigInt(gasTable.CreateBySuicide),
 		GasCall:                     toBigInt(gasTable.Calls),
-		GasExtbyte:                  toBigInt(gasTable.ExpByte),
+		GasExpbyte:                  toBigInt(gasTable.ExpByte),
 		GasTransactionCreate:        toBigInt(createGasCost),
 		ForceCodeDeposit:            rules.IsEIP2F,
 		HasDelegateCall:             rules.IsEIP7F,
