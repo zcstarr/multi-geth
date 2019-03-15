@@ -372,7 +372,7 @@ func MakeSputnikVMPatch(config *params.ChainConfig, header *types.Header) sputni
 		GasCall:                     toBigInt(gasTable.Calls),
 		GasExpbyte:                  toBigInt(gasTable.ExpByte),
 		GasTransactionCreate:        toBigInt(createGasCost),
-		ForceCodeDeposit:            rules.IsEIP2F,
+		ForceCodeDeposit:            !rules.IsEIP2F,
 		HasDelegateCall:             rules.IsEIP7F,
 		HasStaticCall:               rules.IsEIP214F,
 		HasRevert:                   rules.IsEIP140F,
