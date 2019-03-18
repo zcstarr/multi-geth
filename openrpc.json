@@ -1,5 +1,5 @@
 {
-  "openrpc": "1.0.0-rc0",
+  "openrpc": "1.0.0-rc1",
   "info": {
     "version": "1.0.0",
     "title": "Ether RPC",
@@ -97,6 +97,7 @@
         }
       ],
       "result": {
+        "name": "dataWord",
         "schema": {
           "$ref": "#/components/schemas/DataWord"
         }
@@ -114,6 +115,7 @@
         }
       ],
       "result": {
+        "name": "nonce",
         "schema": {
           "$ref": "#/components/contentDescriptors/Nonce"
         }
@@ -128,9 +130,7 @@
         }
       ],
       "result": {
-        "schema": {
-          "$ref": "#/components/schemas/Transaction"
-        }
+        "$ref": "#/components/contentDescriptors/Transaction"
       }
     },
     {
@@ -150,9 +150,7 @@
         }
       ],
       "result": {
-        "schema": {
-          "$ref": "#/components/schemas/Transaction"
-        }
+        "$ref": "#/components/contentDescriptors/Transaction"
       }
     },
     {
@@ -172,9 +170,7 @@
         }
       ],
       "result": {
-        "schema": {
-          "$ref": "#/components/schemas/Transaction"
-        }
+        "$ref": "#/components/contentDescriptors/Transaction"
       }
     },
     {
@@ -186,6 +182,7 @@
         }
       ],
       "result": {
+        "name": "receipt",
         "schema": {
           "$ref": "#/components/schemas/Receipt"
         }
@@ -208,6 +205,7 @@
         }
       ],
       "result": {
+        "name": "uncle",
         "schema": {
           "$ref": "#/components/schemas/Uncle"
         }
@@ -218,8 +216,12 @@
       "summary": "Returns information about a uncle of a block by hash and uncle index position.",
       "params": [
         {
+          "name": "uncleBlockNumber",
           "description": "The block in which the uncle was included",
-          "$ref": "#/components/contentDescriptors/BlockNumber"
+          "required": true,
+          "schema": {
+            "$ref": "#/components/schema/BlockNumber"
+          }
         },
         {
           "name": "index",
@@ -231,6 +233,7 @@
         }
       ],
       "result": {
+        "name": "uncle",
         "schema": {
           "$ref": "#/components/schemas/Uncle"
         }
@@ -245,6 +248,7 @@
         }
       ],
       "result": {
+        "name": "filterId",
         "schema": {
           "description": "The filter ID for use in `eth_getFilterChanges`",
           "$ref": "#/components/schemas/Integer"
@@ -256,10 +260,7 @@
       "summary": "Creates a filter in the node, to notify when a new block arrives. To check if the state has changed, call eth_getFilterChanges.",
       "params": [],
       "result": {
-        "schema": {
-          "description": "The filter ID for use in `eth_getFilterChanges`",
-          "$ref": "#/components/schemas/Integer"
-        }
+        "$ref": "#/contentDescriptors/FilterId"
       }
     },
     {
@@ -267,10 +268,7 @@
       "summary": "Creates a filter in the node, to notify when new pending transactions arrive. To check if the state has changed, call eth_getFilterChanges.",
       "params": [],
       "result": {
-        "schema": {
-          "description": "The filter ID for use in `eth_getFilterChanges`",
-          "$ref": "#/components/schemas/Integer"
-        }
+        "$ref": "#/contentDescriptors/FilterId"
       }
     },
     {
@@ -286,6 +284,7 @@
         }
       ],
       "result": {
+        "name": "filterUninstalledSuccess",
         "schema": {
           "type": "boolean",
           "description": "Whether of not the filter was successfully uninstalled"
@@ -305,6 +304,7 @@
         }
       ],
       "result": {
+        "name": "",
         "schema": {
           "type": "array",
           "items": {
@@ -326,12 +326,7 @@
         }
       ],
       "result": {
-        "schema": {
-          "type": "array",
-          "items": {
-            "$ref": "#/components/schemas/Log"
-          }
-        }
+        "$ref": "#/components/contentDescriptors/Logs"
       }
     },
     {
@@ -343,12 +338,7 @@
         }
       ],
       "result": {
-        "schema": {
-          "type": "array",
-          "items": {
-            "$ref": "#/components/schemas/Log"
-          }
-        }
+        "$ref": "#/components/contentDescriptors/Logs"
       }
     },
     {
@@ -356,6 +346,7 @@
       "summary": "Returns the hash of the current block, the seedHash, and the boundary condition to be met ('target').",
       "params": [],
       "result": {
+        "name": "work",
         "schema": {
           "type": "array",
           "items": [
@@ -393,6 +384,8 @@
         }
       ],
       "result": {
+        "name": "solutionValid",
+        "description": "returns true if the provided solution is valid, otherwise false.",
         "schema": {
           "type": "boolean",
           "description": "Whether or not the provided solution is valid"
@@ -418,6 +411,7 @@
         }
       ],
       "result": {
+        "name": "submitHashRateSuccess",
         "schema": {
           "type": "boolean",
           "description": "whether of not submitting went through succesfully"
@@ -429,8 +423,12 @@
       "summary": "Returns the account- and storage-values of the specified account including the Merkle-proof.",
       "params": [
         {
+          "name": "address",
           "description": "The address of the account or contract",
-          "$ref": "#/components/contentDescriptors/Address"
+          "required": true,
+          "schema": {
+            "$ref": "#/components/schemas/Address"
+          }
         },
         {
           "name": "storageKeys",
@@ -447,9 +445,10 @@
         }
       ],
       "result": {
+        "name": "account",
         "schema": {
           "type": "object",
-          "description": "The requested datum with their merkle proofs connecting them to the blockhash of the block specified",
+          "description": "The merkle proofs of the specified account connecting them to the blockhash of the block specified",
           "properties": {
             "address": {
               "description": "The address of the account or contract of the request",
@@ -486,15 +485,22 @@
       "summary": "Returns code at a given contract address",
       "params": [
         {
+          "name": "address",
           "description": "The address of the contract",
-          "$ref": "#/components/contentDescriptors/Address"
+          "schema": {
+            "$ref": "#/components/schemas/Address"
+          }
         },
         {
+          "name": "blockNumber",
           "description": "A BlockNumber of which the code existed",
-          "$ref": "#/components/contentDescriptors/BlockNumber"
+          "schema": {
+            "$ref": "#/components/schemas/BlockNumber"
+          }
         }
       ],
       "result": {
+        "name": "bytes",
         "schema": {
           "$ref": "#/components/schemas/Bytes"
         }
@@ -505,15 +511,22 @@
       "summary": "Returns Ether balance of a given or account or contract",
       "params": [
         {
+          "name": "address",
           "description": "The address of the acccount or contract",
-          "$ref": "#/components/contentDescriptors/Address"
+          "schema": {
+            "$ref": "#/components/schemas/Address"
+          }
         },
         {
+          "name": "blockNumber",
           "description": "A BlockNumber at which to request the balance",
-          "$ref": "#/components/contentDescriptors/BlockNumber"
+          "schema": {
+            "$ref": "#/components/schemas/BlockNumber"
+          }
         }
       ],
       "result": {
+        "name": "integer",
         "schema": {
           "$ref": "#/components/schemas/Integer"
         }
@@ -524,10 +537,14 @@
       "summary": "The sign method calculates an Ethereum specific signature with: sign(keccak256( '\\x19Ethereum Signed Message:\n' + len(message) + message))).",
       "params": [
         {
+          "name": "address",
           "description": "The address of the account who's signature to use.",
-          "$ref": "#/components/contentDescriptors/Address"
+          "schema": {
+            "$ref": "#/components/schemas/Address"
+          }
         },
         {
+          "name": "message",
           "description": "The message to sign",
           "schema": {
             "$ref": "#/components/schemas/Bytes"
@@ -535,6 +552,7 @@
         }
       ],
       "result": {
+        "name": "signatureData",
         "schema": {
           "description": "The signature data.",
           "$ref": "#/components/schemas/Bytes"
@@ -546,6 +564,7 @@
       "summary": "Returns a list of accounts owned by the client",
       "params": [],
       "result": {
+        "name": "addresses",
         "schema": {
           "description": "An array of addresses owned by the client",
           "type": "array",
@@ -560,6 +579,7 @@
       "summary": "Returns the current price per gas in wei",
       "params": [],
       "result": {
+        "name": "gasPrice",
         "schema": {
           "description": "Integer of the current gas price",
           "$ref": "#/components/schemas/Integer"
@@ -571,6 +591,7 @@
       "summary": "Returns the number of hashes per second that the node is mining with.",
       "params": [],
       "result": {
+        "name": "hashesPerSecond",
         "schema": {
           "description": "Integer of the number of hashes per second",
           "$ref": "#/components/schemas/Integer"
@@ -582,6 +603,7 @@
       "summary": "Returns true if client is actively mining new blocks.",
       "params": [],
       "result": {
+        "name": "mining",
         "schema": {
           "description": "Whether of not the client is mining",
           "type": "boolean"
@@ -593,6 +615,7 @@
       "summary": "Returns the client coinbase address.",
       "params": [],
       "result": {
+        "name": "address",
         "schema": {
           "description": "The address owned by the client that is used as default for things like the mining reward",
           "$ref": "#/components/schemas/Address"
@@ -604,6 +627,7 @@
       "summary": "Returns the current ethereum protocol version.",
       "params": [],
       "result": {
+        "name": "protocolVersion",
         "schema": {
           "description": "The current ethereum protocol version",
           "$ref": "#/components/schemas/Integer"
@@ -619,6 +643,7 @@
         }
       ],
       "result": {
+        "name": "blockTransactionCountByHash",
         "schema": {
           "description": "The Number of total transactions in the given block",
           "$ref": "#/components/schemas/Integer"
@@ -634,6 +659,7 @@
         }
       ],
       "result": {
+        "name": "blocktransactionCountByNumber",
         "schema": {
           "description": "The Number of total transactions in the given block",
           "$ref": "#/components/schemas/Integer"
@@ -649,6 +675,7 @@
         }
       ],
       "result": {
+        "name": "uncleCount",
         "schema": {
           "description": "The Number of total uncles in the given block",
           "$ref": "#/components/schemas/Integer"
@@ -664,6 +691,7 @@
         }
       ],
       "result": {
+        "name": "uncleCount",
         "schema": {
           "description": "The Number of total uncles in the given block",
           "$ref": "#/components/schemas/Integer"
@@ -679,6 +707,7 @@
         }
       ],
       "result": {
+        "name": "transactionHash",
         "schema": {
           "description": "The transaction hash, or the zero hash if the transaction is not yet available.",
           "$ref": "#/components/schemas/Keccak"
@@ -690,6 +719,7 @@
       "summary": "Creates new message call transaction or a contract creation for signed transactions.",
       "params": [
         {
+          "name": "signedTransactionData",
           "description": "The signed transaction data",
           "schema": {
             "$ref": "#/components/schemas/Bytes"
@@ -697,6 +727,7 @@
         }
       ],
       "result": {
+        "name": "transactionHash",
         "schema": {
           "description": "The transaction hash, or the zero hash if the transaction is not yet available.",
           "$ref": "#/components/schemas/Keccak"
@@ -712,6 +743,7 @@
         }
       ],
       "result": {
+        "name": "returnValue",
         "schema": {
           "description": "The return value of the executed contract",
           "$ref": "#/components/schemas/Bytes"
@@ -727,6 +759,7 @@
         }
       ],
       "result": {
+        "name": "gasUsed",
         "schema": {
           "description": "The amount of gas used",
           "$ref": "#/components/schemas/Integer"
@@ -738,6 +771,7 @@
       "summary": "Returns an object with data about the sync status or false.",
       "params": [],
       "result": {
+        "name": "syncing",
         "schema": {
           "oneOf": [
             {
@@ -779,6 +813,7 @@
       "summary": "Returns a list of available compilers in the client.",
       "params": [],
       "result": {
+        "name": "compilers",
         "schema": {
           "type": "array",
           "description": "Array of available compilers.",
@@ -803,6 +838,7 @@
         }
       ],
       "result": {
+        "name": "codeResponse",
         "schema": {
           "type": "object",
           "$ref": "#/components/schemas/CodeResponse"
@@ -823,6 +859,7 @@
         }
       ],
       "result": {
+        "name": "copmiledCode",
         "schema": {
           "description": "The compiled Byte code",
           "$ref": "#/components/schemas/Bytes"
@@ -843,6 +880,7 @@
         }
       ],
       "result": {
+        "name": "compiledCode",
         "schema": {
           "description": "The compiled Byte code",
           "$ref": "#/components/schemas/Bytes"
@@ -1512,6 +1550,23 @@
         "required": true,
         "schema": {
           "$ref": "#/components/schemas/Position"
+        }
+      },
+      "Logs": {
+        "name": "logs",
+        "description": "An array of all logs matching filter with given id.",
+        "schema": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/Log"
+          }
+        }    
+      },
+      "FilterId": {
+        "name": "filterId",
+        "schema": {
+          "description": "The filter ID for use in `eth_getFilterChanges`",
+          "$ref": "#/components/schemas/Integer"
         }
       },
       "BlockNumber": {
