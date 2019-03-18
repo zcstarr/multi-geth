@@ -3,7 +3,7 @@
   "info": {
     "version": "1.0.0",
     "title": "Multi Geth RPC",
-    "description": "The etclabs brings you... generated RPC!",
+    "description": "This API lets you interact with the blockchain via JSON-RPC",
     "contact": {
       "name": "etclabs core"
     },
