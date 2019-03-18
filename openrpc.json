@@ -4,9 +4,6 @@
     "version": "1.0.0",
     "title": "Multi Geth RPC",
     "description": "This API lets you interact with the blockchain via JSON-RPC",
-    "contact": {
-      "name": "etclabs core"
-    },
     "license": {
       "name": "Apache 2.0",
       "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
