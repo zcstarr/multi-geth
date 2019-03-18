@@ -2,7 +2,7 @@
   "openrpc": "1.0.0-rc1",
   "info": {
     "version": "1.0.0",
-    "title": "Ether RPC",
+    "title": "Multi Geth RPC",
     "description": "The etclabs brings you... generated RPC!",
     "contact": {
       "name": "etclabs core"
