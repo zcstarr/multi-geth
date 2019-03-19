@@ -323,6 +323,8 @@ func CalcDifficulty(config *params.ChainConfig, time uint64, parent *types.Heade
 	case config.IsBombDisposal(next):
 		return calcDifficultyBombDisposal(time, parent)
 	case config.IsECIP1010(next):
+		//          / \
+		// Diehard -   - Explosion
 		return calcDifficultyECIP1010(time, parent, next, config.ECIP1010PauseBlock, config.ECIP1010Length)
 	case config.IsEIP1234F(next):
 		return calcDifficultyEIP1234(time, parent)
@@ -354,6 +356,7 @@ var (
 // makeDifficultyCalculator creates a difficultyCalculator with the given bomb-delay.
 // the difficulty is calculated with Byzantium rules, which differs from Homestead in
 // how uncles affect the calculation
+// SHARED between EIP1234 [fn(5000000)] and Byzantium [fn(3000000)]
 func makeDifficultyCalculator(bombDelay *big.Int) func(time uint64, parent *types.Header) *big.Int {
 	// Note, the calculations below looks at the parent number, which is 1 below
 	// the block number. Thus we remove one from the delay given
