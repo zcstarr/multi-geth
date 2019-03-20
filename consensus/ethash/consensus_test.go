@@ -18,10 +18,13 @@ package ethash
 
 import (
 	"encoding/json"
+	"fmt"
+	"io/ioutil"
 	"math/big"
 	"math/rand"
 	"os"
 	"path/filepath"
+	"strconv"
 	"testing"
 	"time"
 
@@ -41,6 +44,7 @@ type diffTest struct {
 	CurrentTimestamp   uint64
 	CurrentBlocknumber *big.Int
 	CurrentDifficulty  *big.Int
+	ChainConfig        *params.ChainConfig
 }
 
 func (d *diffTest) UnmarshalJSON(b []byte) (err error) {
@@ -50,6 +54,7 @@ func (d *diffTest) UnmarshalJSON(b []byte) (err error) {
 		CurrentTimestamp   string
 		CurrentBlocknumber string
 		CurrentDifficulty  string
+		ChainConfig        *params.ChainConfig
 	}
 	if err := json.Unmarshal(b, &ext); err != nil {
 		return err
@@ -60,12 +65,13 @@ func (d *diffTest) UnmarshalJSON(b []byte) (err error) {
 	d.CurrentTimestamp = math.MustParseUint64(ext.CurrentTimestamp)
 	d.CurrentBlocknumber = math.MustParseBig256(ext.CurrentBlocknumber)
 	d.CurrentDifficulty = math.MustParseBig256(ext.CurrentDifficulty)
+	d.ChainConfig = ext.ChainConfig
 
 	return nil
 }
 
 func TestCalcDifficulty(t *testing.T) {
-	file, err := os.Open(filepath.Join("..", "..", "tests", "testdata", "BasicTests", "difficulty.json"))
+	file, err := os.Open(filepath.Join("..", "..", "tests", "testdata", "BasicTests", "difficulty2.json"))
 	if err != nil {
 		t.Skip(err)
 	}
@@ -77,9 +83,13 @@ func TestCalcDifficulty(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	config := &params.ChainConfig{HomesteadBlock: big.NewInt(1150000)}
+	// config := &params.ChainConfig{HomesteadBlock: big.NewInt(1150000)}
 
 	for name, test := range tests {
+		config := test.ChainConfig
+		if config == nil {
+			panic("gthaca")
+		}
 		number := new(big.Int).Sub(test.CurrentBlocknumber, big.NewInt(1))
 		diff := CalcDifficulty(config, test.CurrentTimestamp, &types.Header{
 			Number:     number,
@@ -87,7 +97,7 @@ func TestCalcDifficulty(t *testing.T) {
 			Difficulty: test.ParentDifficulty,
 		})
 		if diff.Cmp(test.CurrentDifficulty) != 0 {
-			t.Error(name, "failed. Expected", test.CurrentDifficulty, "and calculated", diff)
+			t.Error(name, "failed. Expected", test.CurrentDifficulty, "and calculated", diff, "test:", test)
 		}
 	}
 }
@@ -113,20 +123,44 @@ func TestGenTestsCalcDifficulties(t *testing.T) {
 	}
 
 	type testcase struct {
-		parentTimestamp    uint64
-		currentTimestamp   uint64
-		parentDifficulty   *big.Int
-		currentDifficulty  *big.Int
-		parentUnclesHash   common.Hash
-		currentBlockNumber uint64
+		ParentTimestamp    uint64
+		CurrentTimestamp   uint64
+		ParentDifficulty   *big.Int
+		CurrentDifficulty  *big.Int
+		ParentUnclesHash   common.Hash
+		CurrentBlockNumber uint64
+		ChainConfig        *params.ChainConfig
+	}
+	type testcaseS struct {
+		ParentTimestamp    string
+		CurrentTimestamp   string
+		ParentDifficulty   string
+		CurrentDifficulty  string
+		ParentUnclesHash   string
+		CurrentBlockNumber string
+		ChainConfig        *params.ChainConfig
+	}
+	t2s := func(tc *testcase) *testcaseS {
+		return &testcaseS{
+			ParentTimestamp:    fmt.Sprintf("%d", tc.ParentTimestamp),
+			CurrentTimestamp:   fmt.Sprintf("%d", tc.CurrentTimestamp),
+			ParentDifficulty:   fmt.Sprintf("%v", tc.ParentDifficulty),
+			CurrentDifficulty:  fmt.Sprintf("%v", tc.CurrentDifficulty),
+			ParentUnclesHash:   tc.ParentUnclesHash.String(),
+			CurrentBlockNumber: fmt.Sprintf("%v", tc.CurrentBlockNumber),
+			ChainConfig:        tc.ChainConfig,
+		}
 	}
 
 	withSurroundingNumbers := func(edges []*big.Int) []*big.Int {
 		var out []*big.Int
 		for i := range edges {
 			e := edges[i]
+			if e == nil {
+				continue
+			}
 			out = append(out, e)
-			out = append(out, new(big.Int).Add(e, big.NewInt(1)))
+			out = append(out, big.NewInt(0).Add(e, big.NewInt(1)))
 			if e.Cmp(big.NewInt(0)) > 0 {
 				out = append(out, new(big.Int).Sub(e, big.NewInt(1)))
 			}
@@ -137,12 +171,67 @@ func TestGenTestsCalcDifficulties(t *testing.T) {
 		return []*big.Int{
 			c.HomesteadBlock,
 			c.EIP158Block,
-			c.
+			c.EIP100FBlock,
+			c.EIP649FBlock,
+			c.ByzantiumBlock,
+			c.DisposalBlock,
+			c.EIP1234FBlock,
 		}
 	}
 
+	maxTime := int32(999999999)
+	maxTimeDelta := int32(42)
 	genTestScene := func(c *params.ChainConfig, bn *big.Int) *testcase {
-		
+		pt := rand.Int31n(maxTime)
+		ct := pt + int32(rand.Int31n(maxTimeDelta))
+		tc := &testcase{
+			ChainConfig:        c,
+			ParentTimestamp:    uint64(pt),
+			CurrentTimestamp:   uint64(ct),
+			CurrentBlockNumber: bn.Uint64(),
+			ParentDifficulty:   big.NewInt(0).SetUint64(uint64(rand.Int31n(maxTime))),
+			ParentUnclesHash:   common.HexToHash("0x1dcc4de8dec75d7aab85b567b6ccd41ad312451b948a7413f0a142fd40d49347"),
+		}
+		tc.CurrentDifficulty = CalcDifficulty(c, tc.CurrentTimestamp, &types.Header{
+			Number:     big.NewInt(0).Sub(bn, big.NewInt(1)),
+			Time:       new(big.Int).SetUint64(tc.ParentTimestamp),
+			Difficulty: tc.ParentDifficulty,
+		})
+
+		return tc
 	}
 
+	var scenes []*testcase
+	for _, c := range chains {
+		blocks := withSurroundingNumbers(difficultyInterestingForks(c))
+		t.Log("blocks", blocks)
+		for _, b := range blocks {
+			if b.Sign() == 0 {
+				continue
+			}
+			s := genTestScene(c, b)
+			scenes = append(scenes, s)
+		}
+	}
+
+	var testdata = make(map[string]*testcaseS)
+	for i, c := range scenes {
+		testdata[strconv.Itoa(i)] = t2s(c)
+	}
+
+	b, err := json.MarshalIndent(testdata, "", "    ")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	// write := false
+	write := true
+
+	if write {
+		file := filepath.Join("..", "..", "tests", "testdata", "BasicTests", "difficulty2.json")
+		err = ioutil.WriteFile(file, b, os.ModePerm)
+		if err != nil {
+			t.Fatal(err)
+		}
+	}
 }
