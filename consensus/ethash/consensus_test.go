@@ -160,6 +160,7 @@ func TestGenTestsCalcDifficulties(t *testing.T) {
 			c.EIP158Block,
 			c.EIP100FBlock,
 			c.EIP649FBlock,
+			c.ECIP1010PauseBlock,
 			c.ByzantiumBlock,
 			c.DisposalBlock,
 			c.EIP1234FBlock,
