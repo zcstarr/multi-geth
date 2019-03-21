@@ -74,8 +74,8 @@
                         "name": "",
                         "description": "",
                         "schema": {
-                            "type": "",
-                            "format": ""
+                            "type": "integer",
+                            "format": "uint64"
                         }
                     }
                 ] 
@@ -88,8 +88,8 @@
                         "name": "",
                         "description": "",
                         "schema": {
-                            "type": "",
-                            "format": ""
+                            "type": "integer",
+                            "format": "uint64"
                         }
                     }
                 ] 
