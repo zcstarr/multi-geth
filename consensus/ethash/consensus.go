@@ -317,71 +317,63 @@ func CalcDifficulty(config *params.ChainConfig, time uint64, parent *types.Heade
 	// NOTE in these closed functions, argument 'd' is a pointer value that can be expected to
 	// be acted on
 
-	// algorithm:
-	// diff =
-	//   if parent_block_time_delta < params.DurationLimit
-	//      parent_diff + (parent_diff // 2048)
-	//   else
-	//      parent_diff - (parent_diff // 2048)
-	adjust_frontier := func(d *big.Int) {
-		d.Set(parent.Difficulty)
-		if parent_time_delta(time, parent).Cmp(params.DurationLimit) < 0 {
-			d.Add(d, parent_diff_over_dbd(parent))
-		} else {
-			d.Sub(d, parent_diff_over_dbd(parent))
-		}
-	}
-
-	// https://github.com/ethereum/EIPs/blob/master/EIPS/eip-2.md
-	// algorithm:
-	// diff = (parent_diff +
-	//         (parent_diff / 2048 * max(1 - (block_timestamp - parent_timestamp) // 10, -99))
-	//        )
-	adjust_eip2 := func(d *big.Int) {
-		d.Div(parent_time_delta(time, parent), big10)
-		d.Sub(big1, d)
-		d.Set(math.BigMax(d, bigMinus99))
-		d.Mul(parent_diff_over_dbd(parent), d)
-		d.Add(d, parent.Difficulty)
-	}
-
-	// https://github.com/ethereum/EIPs/issues/100
-	// algorithm:
-	// diff = (parent_diff +
-	//         (parent_diff / 2048 * max((2 if len(parent.uncles) else 1) - ((timestamp - parent.timestamp) // 9), -99))
-	//        ) + 2^(periodCount - 2)
-	adjust_eip100 := func(d *big.Int) {
-		d.Div(parent_time_delta(time, parent), big9)
-		if parent.UncleHash == types.EmptyUncleHash {
-			d.Sub(big1, d)
-		} else {
-			d.Sub(big2, d)
-		}
-		d.Set(math.BigMax(d, bigMinus99))
-		d.Mul(parent_diff_over_dbd(parent), d)
-		d.Add(d, parent.Difficulty)
-	}
-
 	next := new(big.Int).Add(parent.Number, big1)
+	out := new(big.Int)
 
 	// ADJUSTMENT algorithms
-	out := new(big.Int)
 	if config.IsEIP100F(next) {
-		adjust_eip100(out)
+		// https://github.com/ethereum/EIPs/issues/100
+		// algorithm:
+		// diff = (parent_diff +
+		//         (parent_diff / 2048 * max((2 if len(parent.uncles) else 1) - ((timestamp - parent.timestamp) // 9), -99))
+		//        ) + 2^(periodCount - 2)
+		out.Div(parent_time_delta(time, parent), big9)
+		if parent.UncleHash == types.EmptyUncleHash {
+			out.Sub(big1, out)
+		} else {
+			out.Sub(big2, out)
+		}
+		out.Set(math.BigMax(out, bigMinus99))
+		out.Mul(parent_diff_over_dbd(parent), out)
+		out.Add(out, parent.Difficulty)
+
 	} else if config.IsEIP2F(next) {
-		adjust_eip2(out)
+		// https://github.com/ethereum/EIPs/blob/master/EIPS/eip-2.md
+		// algorithm:
+		// diff = (parent_diff +
+		//         (parent_diff / 2048 * max(1 - (block_timestamp - parent_timestamp) // 10, -99))
+		//        )
+		out.Div(parent_time_delta(time, parent), big10)
+		out.Sub(big1, out)
+		out.Set(math.BigMax(out, bigMinus99))
+		out.Mul(parent_diff_over_dbd(parent), out)
+		out.Add(out, parent.Difficulty)
+
 	} else {
-		adjust_frontier(out)
+		// FRONTIER
+		// algorithm:
+		// diff =
+		//   if parent_block_time_delta < params.DurationLimit
+		//      parent_diff + (parent_diff // 2048)
+		//   else
+		//      parent_diff - (parent_diff // 2048)
+		out.Set(parent.Difficulty)
+		if parent_time_delta(time, parent).Cmp(params.DurationLimit) < 0 {
+			out.Add(out, parent_diff_over_dbd(parent))
+		} else {
+			out.Sub(out, parent_diff_over_dbd(parent))
+		}
 	}
 
 	// after adjustment and before bomb
 	out.Set(math.BigMax(out, params.MinimumDifficulty))
 
 	// EXPLOSION delays
+
+	// exPeriodRef the explosion clause's reference point
 	exPeriodRef := new(big.Int).Add(parent.Number, big1)
 
 	if config.IsBombDisposal(next) {
-
 		return out
 
 	} else if config.IsEIP1234F(next) {
@@ -429,25 +421,22 @@ func CalcDifficulty(config *params.ChainConfig, time uint64, parent *types.Heade
 
 	}
 
-	// exponential_clause enforces the exponential bomb
+	// EXPLOSION
+
 	// the 'periodRef' (from above) represents the many ways of hackishly modifying the reference number
 	// (ie the 'currentBlock') in order to lie to the function about what time it really is
 	//
 	//   2^(( periodRef // EDP) - 2)
 	//
-	exponential_clause := func(periodRef *big.Int, d *big.Int) {
-		out := new(big.Int)
-		out.Div(periodRef, ExpDiffPeriod) // (periodRef // EDP)
-		if out.Cmp(big1) > 0 {            // if result large enough (not in algo explicitly)
-			out.Sub(out, big2)      // - 2
-			out.Exp(big2, out, nil) // 2^
-		} else {
-			out.SetUint64(0)
-		}
-		d.Add(d, out)
-
+	x := new(big.Int)
+	x.Div(exPeriodRef, ExpDiffPeriod) // (periodRef // EDP)
+	if x.Cmp(big1) > 0 {              // if result large enough (not in algo explicitly)
+		x.Sub(x, big2)      // - 2
+		x.Exp(big2, x, nil) // 2^
+	} else {
+		x.SetUint64(0)
 	}
-	exponential_clause(exPeriodRef, out)
+	out.Add(out, x)
 	return out
 }
 

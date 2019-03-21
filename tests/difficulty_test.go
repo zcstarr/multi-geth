@@ -55,6 +55,9 @@ func TestDifficulty(t *testing.T) {
 	dt.skipLoad("difficultyMorden\\.json")
 	dt.skipLoad("difficultyOlimpic\\.json")
 
+	// file gets testes in consensus package
+	dt.skipLoad("difficulty2\\.json")
+
 	dt.config("Ropsten", *params.TestnetChainConfig)
 	dt.config("Morden", *params.TestnetChainConfig)
 	dt.config("Frontier", params.ChainConfig{})
@@ -64,14 +67,16 @@ func TestDifficulty(t *testing.T) {
 	})
 
 	dt.config("Byzantium", params.ChainConfig{
-		ByzantiumBlock: big.NewInt(0),
+		EIP100FBlock: big.NewInt(0),
+		EIP649FBlock: big.NewInt(0),
 	})
 
 	dt.config("Frontier", *params.TestnetChainConfig)
 	dt.config("MainNetwork", mainnetChainConfig)
 	dt.config("CustomMainNetwork", mainnetChainConfig)
 	dt.config("Constantinople", params.ChainConfig{
-		ConstantinopleBlock: big.NewInt(0),
+		EIP100FBlock:  big.NewInt(0),
+		EIP1234FBlock: big.NewInt(0),
 	})
 	dt.config("difficulty.json", mainnetChainConfig)
 
