@@ -192,6 +192,7 @@ func TestGenTestsCalcDifficulties(t *testing.T) {
 	var scenes []*diffTest
 	for _, c := range chains {
 		blocks := withSurroundingNumbers(difficultyInterestingForks(c))
+		blocks = append(blocks, []*big.Int{big.NewInt(4200000), big.NewInt(9999999), big.NewInt(10000000)}...)
 		t.Log("blocks", blocks)
 		for _, b := range blocks {
 			if b.Sign() == 0 {
