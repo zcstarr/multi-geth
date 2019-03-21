@@ -55,7 +55,7 @@ func TestDifficulty(t *testing.T) {
 	dt.skipLoad("difficultyMorden\\.json")
 	dt.skipLoad("difficultyOlimpic\\.json")
 
-	// file gets testes in consensus package
+	// file gets tested in consensus package
 	dt.skipLoad("difficulty2\\.json")
 
 	dt.config("Ropsten", *params.TestnetChainConfig)

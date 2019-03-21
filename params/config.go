@@ -701,7 +701,8 @@ func (c *ChainConfig) IsEIP170F(num *big.Int) bool {
 
 //ByzantiumEIPFBlocks returns the canonical EIP blocks configured for the Byzantium Fork.
 func (c *ChainConfig) ByzantiumEIPFBlocks() []*big.Int {
-	return []*big.Int{
+	b := c.EIP158HFFBlocks()
+	b = append(b, []*big.Int{
 		c.EIP100FBlock,
 		c.EIP140FBlock,
 		c.EIP198FBlock,
@@ -711,7 +712,8 @@ func (c *ChainConfig) ByzantiumEIPFBlocks() []*big.Int {
 		c.EIP214FBlock,
 		c.EIP649FBlock,
 		c.EIP658FBlock,
-	}
+	}...)
+	return b
 }
 
 // IsByzantium returns whether num is either equal to the Byzantium fork block or greater,
@@ -730,7 +732,7 @@ func (c *ChainConfig) IsByzantium(num *big.Int) bool {
 
 // IsEIP100F returns whether num is equal to or greater than the Byzantium or EIP100 block.
 func (c *ChainConfig) IsEIP100F(num *big.Int) bool {
-	return c.IsByzantium(num) || isForked(c.EIP100FBlock, num)
+	return c.IsByzantium(num) || c.IsConstantinople(num) || isForked(c.EIP100FBlock, num)
 }
 
 // IsEIP140F returns whether num is equal to or greater than the Byzantium or EIP140 block.
@@ -775,13 +777,15 @@ func (c *ChainConfig) IsEIP658F(num *big.Int) bool {
 
 // ConstantinopleEIPFBlocks returns the canonical blocks configured for the Constantinople Fork.
 func (c *ChainConfig) ConstantinopleEIPFBlocks() []*big.Int {
-	return []*big.Int{
+	b := c.ByzantiumEIPFBlocks()
+	b = append(b, []*big.Int{
 		c.EIP145FBlock,
 		c.EIP1014FBlock,
 		c.EIP1052FBlock,
 		c.EIP1234FBlock,
 		c.EIP1283FBlock,
-	}
+	}...)
+	return b
 }
 
 // IsConstantinople returns whether num is either equal to the Constantinople fork block or greater,
