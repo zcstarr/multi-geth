@@ -88,9 +88,8 @@ func (p *StateProcessor) Process(block *types.Block, statedb *state.StateDB, cfg
 // for the transaction, gas used and an error if the transaction failed,
 // indicating the block was invalid.
 func ApplyTransaction(config *params.ChainConfig, bc ChainContext, author *common.Address, gp *GasPool, statedb *state.StateDB, header *types.Header, tx *types.Transaction, usedGas *uint64, cfg vm.Config) (*types.Receipt, uint64, error) {
-	//cfg.EVMInterpreter = "svm"
 	if cfg.EVMInterpreter == "svm" {
-		return ApplySputnikTransaction(config, bc, author, gp, statedb, header, tx, usedGas, cfg)
+		return applySputnikTransaction(config, bc, author, gp, statedb, header, tx, usedGas, cfg)
 	}
 	return applyTransaction(config, bc, author, gp, statedb, header, tx, usedGas, cfg)
 }
@@ -168,7 +167,7 @@ func precheckSputnikVMTransaction(config *params.ChainConfig, statedb *state.Sta
 	return nil
 }
 
-func ApplySputnikTransaction(config *params.ChainConfig, bc ChainContext, author *common.Address, gp *GasPool, statedb *state.StateDB, header *types.Header, tx *types.Transaction, usedGas *uint64, cfg vm.Config) (*types.Receipt, uint64, error) {
+func applySputnikTransaction(config *params.ChainConfig, bc ChainContext, author *common.Address, gp *GasPool, statedb *state.StateDB, header *types.Header, tx *types.Transaction, usedGas *uint64, cfg vm.Config) (*types.Receipt, uint64, error) {
 	// Pre-check is needed as SputnikVM-FFI relies on Valid Transactions to be provided.
 	err := precheckSputnikVMTransaction(config, statedb, header, tx, usedGas)
 	if err != nil {
@@ -225,7 +224,7 @@ func ApplySputnikTransaction(config *params.ChainConfig, bc ChainContext, author
 
 	// Get SputnikVM's corresponding chain config.
 	// TODO: handle chains that are not networkid=1 (ETH main), eg testnets, custom chains with custom state staring nonces
-	patch := MakeSputnikVMPatch(config, header)
+	patch := makeSputnikVMPatch(config, header)
 	vm := sputnikvm.NewDynamic(patch, &vmtx, &vmheader)
 
 OUTER:
@@ -352,7 +351,7 @@ OUTER:
 	return receipt, gas, err
 }
 
-func MakeSputnikVMPatch(config *params.ChainConfig, header *types.Header) sputnikvm.DynamicPatch {
+func makeSputnikVMPatch(config *params.ChainConfig, header *types.Header) sputnikvm.DynamicPatch {
 	gasTable := config.GasTable(header.Number)
 
 	// Zero == unlimited
