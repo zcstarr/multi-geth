@@ -88,7 +88,7 @@ func (p *StateProcessor) Process(block *types.Block, statedb *state.StateDB, cfg
 // for the transaction, gas used and an error if the transaction failed,
 // indicating the block was invalid.
 func ApplyTransaction(config *params.ChainConfig, bc ChainContext, author *common.Address, gp *GasPool, statedb *state.StateDB, header *types.Header, tx *types.Transaction, usedGas *uint64, cfg vm.Config) (*types.Receipt, uint64, error) {
-	cfg.EVMInterpreter = "svm"
+	//cfg.EVMInterpreter = "svm"
 	if cfg.EVMInterpreter == "svm" {
 		return ApplySputnikTransaction(config, bc, author, gp, statedb, header, tx, usedGas, cfg)
 	}
@@ -136,7 +136,45 @@ func applyTransaction(config *params.ChainConfig, bc ChainContext, author *commo
 	return receipt, gas, err
 }
 
+func precheckSputnikVMTransaction(config *params.ChainConfig, statedb *state.StateDB, header *types.Header, tx *types.Transaction, usedGas *uint64) error {
+	// Convert transaction to message
+	msg, err := tx.AsMessage(types.MakeSigner(config, header.Number))
+	if err != nil {
+		return err
+	}
+
+	// Check nonce
+	if msg.CheckNonce() {
+		nonce := statedb.GetNonce(msg.From())
+		if nonce < msg.Nonce() {
+			return ErrNonceTooHigh
+		} else if nonce > msg.Nonce() {
+			return ErrNonceTooLow
+		}
+	}
+
+	// Check if there's enough balance for gas
+	mgval := new(big.Int).Mul(new(big.Int).SetUint64(msg.Gas()), tx.GasPrice())
+	if statedb.GetBalance(msg.From()).Cmp(mgval) < 0 {
+		return errInsufficientBalanceForGas
+	}
+
+	// Check if needed gas is not greater then GasLimit
+	if *usedGas+msg.Gas() > header.GasLimit {
+		return ErrGasLimitReached
+	}
+
+	// No errors, pre-check finished
+	return nil
+}
+
 func ApplySputnikTransaction(config *params.ChainConfig, bc ChainContext, author *common.Address, gp *GasPool, statedb *state.StateDB, header *types.Header, tx *types.Transaction, usedGas *uint64, cfg vm.Config) (*types.Receipt, uint64, error) {
+	// Pre-check is needed as SputnikVM-FFI relies on Valid Transactions to be provided.
+	err := precheckSputnikVMTransaction(config, statedb, header, tx, usedGas)
+	if err != nil {
+		return nil, 0, err
+	}
+
 	asSputnikAddress := func(a common.Address) [20]byte {
 		var addr [20]byte
 		addressBytes := a.Bytes()
