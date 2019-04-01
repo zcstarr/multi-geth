@@ -886,44 +886,36 @@
     },
     {
       "name": "admin_exportChain",
-      "description": "",
+      "description": "Exports a blockchain into the specified file, appending to the file if data already exists in it",
       "params": [
         {
-          "name": "",
-          "description": "",
+          "name": "fp",
+          "description": "path to file",
           "schema": {
-            "type": "integer",
-            "format": "uint64"
+            "type": "string"
           }
         }
       ],
       "result": {
-        "name": "",
-        "schema": {
-          "description": "",
-          "$ref": "#/components/schemas/Bytes"
-        }
+        "name": "result",
+        "description": "result of chain exporting"
       }
     },
     {
       "name": "admin_importChain",
-      "description": "",
+      "description": "Import full chain",
       "params": [
         {
-          "name": "",
-          "description": "",
+          "name": "chain",
+          "description": "path to file containing chain",
           "schema": {
-            "type": "integer",
-            "format": "uint64"
+            "type": "string"
           }
         }
       ],
       "result": {
-        "name": "",
-        "schema": {
-          "description": "",
-          "$ref": "#/components/schemas/Bytes"
-        }
+        "name": "result",
+        "description": "result of chain import"
       }
     },
     {
@@ -970,253 +962,283 @@
     },
     {
       "name": "debug_dumpBlock",
-      "description": "",
+      "description": "Retrieves the state that corresponds to the block number and returns a list of accounts (including storage and code)",
       "params": [
         {
-          "name": "",
-          "description": "",
+          "name": "blockNumber",
           "schema": {
-            "type": "",
-            "format": ""
+            "type": "integer",
+            "format": "int64"
           }
         }
       ],
       "result": {
-        "name": "",
+        "name": "Block state",
         "schema": {
           "description": "",
-          "$ref": "#/components/schemas/Bytes"
+          "$ref": "#/components/schemas/Block"
         }
       }
     },
     {
       "name": "debug_getBadBlocks",
-      "description": "",
-      "params": [
-        {
-          "name": "",
-          "description": "",
-          "schema": {
-            "type": "",
-            "format": ""
-          }
-        }
-      ],
+      "description": "returns a list of the last 'bad blocks' that the client has seen on the network and returns them as a JSON list of block-hashes",
+      "params": [],
       "result": {
-        "name": "",
+        "name": "badBlocks",
         "schema": {
-          "description": "",
-          "$ref": "#/components/schemas/Bytes"
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/BlockHash"
+          }
         }
       }
     },
     {
       "name": "debug_getBlockRlp",
-      "description": "",
+      "description": "Retrieves and returns the RLP encoded block by number",
       "params": [
         {
-          "name": "",
-          "description": "",
+          "name": "blockNumber",
+          "description": "number of target block",
           "schema": {
-            "type": "",
-            "format": ""
+            "type": "integer",
+            "format": "int64"
           }
         }
       ],
       "result": {
         "name": "",
         "schema": {
-          "description": "",
-          "$ref": "#/components/schemas/Bytes"
+          "$ref": "#/components/schemas/BlockRLP"
         }
       }
     },
     {
       "name": "debug_getModifiedAccountsByHash",
-      "description": "",
+      "description": "returns all accounts that have changed between the two blocks specified.\nA change is defined as a difference in nonce, balance, code hash, or storage hash.\n With one parameter, returns the list of accounts modified in the specified block.",
       "params": [
         {
-          "name": "",
-          "description": "",
+          "name": "startHash",
+          "description": "hash of start block",
           "schema": {
-            "type": "",
-            "format": ""
+            "$ref": "#/components/schemas/BlockHash"
+          }
+        },
+        {
+          "name": "endHash",
+          "description": "hash of end block",
+          "schema": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/BlockHash"
+              },
+              {
+                "$ref": "#/components/schemas/Null"
+              }
+            ]
           }
         }
       ],
       "result": {
-        "name": "",
+        "name": "changedAccounts",
         "schema": {
-          "description": "",
-          "$ref": "#/components/schemas/Bytes"
+          "description": "accounts that have changed",
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/Address"
+          }
         }
       }
     },
     {
       "name": "debug_getModifiedAccountsByNumber",
-      "description": "",
+      "description": "returns all accounts that have changed between the two blocks specified.\n A change is defined as a difference in nonce, balance, code hash, or storage hash. \nWith one parameter, returns the list of accounts modified in the specified block.",
       "params": [
         {
-          "name": "",
-          "description": "",
+          "name": "startHash",
+          "description": "hash of start block",
           "schema": {
-            "type": "",
-            "format": ""
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        {
+          "name": "endHash",
+          "description": "hash of end block",
+          "schema": {
+            "oneOf": [
+              {
+                "type": "integer",
+                "format": "int64"
+              },
+              {
+                "$ref": "#/components/schemas/Null"
+              }
+            ]
           }
         }
       ],
       "result": {
-        "name": "",
+        "name": "changedAccounts",
         "schema": {
-          "description": "",
-          "$ref": "#/components/schemas/Bytes"
+          "description": "accounts that have changed",
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/Address"
+          }
         }
       }
     },
     {
       "name": "debug_preimage",
-      "description": "",
+      "description": "preimage retrieves a cached trie node pre-image from memory. \nIf it cannot be found cached, the method queries the persistent database for the content",
       "params": [
         {
-          "name": "",
-          "description": "",
+          "name": "nodeHash",
+          "description": "hash for required tree node",
           "schema": {
-            "type": "",
-            "format": ""
+            "$ref": "#/components/schemas/Keccak"
           }
         }
       ],
       "result": {
-        "name": "",
+        "name": "preimage",
         "schema": {
-          "description": "",
+          "description": "requested pre-image",
           "$ref": "#/components/schemas/Bytes"
         }
       }
     },
     {
       "name": "debug_printBlock",
-      "description": "",
+      "description": "PrintBlock retrieves a block and returns its pretty printed form",
       "params": [
         {
-          "name": "",
-          "description": "",
+          "name": "blockNumber",
+          "description": "number of target block",
           "schema": {
-            "type": "",
-            "format": ""
+            "type": "integer",
+            "format": "int64"
           }
         }
       ],
       "result": {
-        "name": "",
-        "schema": {
-          "description": "",
-          "$ref": "#/components/schemas/Bytes"
-        }
+        "name": "result",
+        "description": "pretty printed block",
+        "schema": {}
       }
     },
     {
       "name": "debug_seedHash",
-      "description": "",
+      "description": "Fetches and retrieves the seed hash of the block by number",
       "params": [
         {
-          "name": "",
-          "description": "",
+          "name": "blockNumber",
+          "description": "number of target block",
           "schema": {
-            "type": "",
-            "format": ""
+            "type": "integer",
+            "format": "int64"
           }
         }
       ],
       "result": {
-        "name": "",
+        "name": "seed hash of the block",
         "schema": {
-          "description": "",
           "$ref": "#/components/schemas/Bytes"
         }
       }
     },
     {
       "name": "debug_setHead",
-      "description": "",
+      "description": "Sets the current head of the local chain by block number. \nNote: this is a destructive action and may severely damage your chain. Use with extreme caution.",
       "params": [
         {
-          "name": "",
-          "description": "",
+          "name": "blockNumber",
+          "description": "number of target block",
           "schema": {
-            "type": "",
-            "format": ""
+            "type": "integer",
+            "format": "int64"
           }
         }
       ],
       "result": {
-        "name": "",
-        "schema": {
-          "description": "",
-          "$ref": "#/components/schemas/Bytes"
-        }
+        "name": "head is set to the new block",
+        "schema": {}
       }
     },
     {
       "name": "debug_standardTraceBadBlockToFile",
-      "description": "",
+      "description": "StandardTraceBadBlockToFile dumps the structured logs created during the execution of EVM against a block pulled from the pool of bad ones to the local file system and returns a list of files to the caller",
       "params": [
         {
-          "name": "",
-          "description": "",
+          "name": "badBlockHash",
+          "description": "hash for a bad block",
           "schema": {
-            "type": "",
-            "format": ""
+            "$ref": "#/components/schemas/BlockHash"
+          }
+        }, 
+        {
+          "name": "blockHash",
+          "description": "hash for a block",
+          "schema": {
+            "$ref": "#/components/schemas/BlockHash"
           }
         }
       ],
       "result": {
-        "name": "",
-        "schema": {
-          "description": "",
-          "$ref": "#/components/schemas/Bytes"
-        }
+        "name": "bad block traced to file",
+        "schema": {}
       }
     },
     {
       "name": "debug_standardTraceBlockToFile",
-      "description": "",
+      "description": "standardTraceBlockToFile configures a new tracer which uses standard JSON output,\n and traces either a full block or an individual transaction.\n The return value will be one filename per transaction traced.",
       "params": [
         {
-          "name": "",
-          "description": "",
+          "name": "blockHash",
+          "description": "hash for a block",
           "schema": {
-            "type": "",
-            "format": ""
+            "$ref": "#/components/schemas/BlockHash"
+          }
+        },
+        {
+          "name": "blockHash",
+          "description": "hash for a block",
+          "schema": {
+            "$ref": "#/components/schemas/BlockHash"
           }
         }
       ],
       "result": {
-        "name": "",
-        "schema": {
-          "description": "",
-          "$ref": "#/components/schemas/Bytes"
-        }
+        "name": "block traced to file",
+        "schema": {}
       }
     },
     {
       "name": "debug_storageRangeAt",
-      "description": "",
+      "description": "StorageRangeAt returns the storage at the given block height and transaction index.",
       "params": [
         {
-          "name": "",
-          "description": "",
+          "name": "blockHash",
+          "description": "hash for a block",
           "schema": {
-            "type": "",
-            "format": ""
+            "$ref": "#/components/schemas/BlockHash"
+          }
+        },
+        {
+          "name": "txIndex",
+          "description": "transaction index",
+          "schema": {
+            "type": "integer",
+            "format": "int64"
           }
         }
       ],
       "result": {
-        "name": "",
+        "name": "storage range",
         "schema": {
-          "description": "",
-          "$ref": "#/components/schemas/Bytes"
+          "$ref": "#/components/schemas/StorangeRange"
         }
       }
     },
@@ -1243,14 +1265,13 @@
     },
     {
       "name": "debug_traceBlock",
-      "description": "",
+      "description": "The traceBlock method will return a full stack trace of all invoked opcodes of all transaction that were included included in this block",
       "params": [
         {
           "name": "",
           "description": "",
           "schema": {
-            "type": "",
-            "format": ""
+            "$ref": "#/components/schemas/BlockRLP"
           }
         }
       ],
@@ -1258,7 +1279,7 @@
         "name": "",
         "schema": {
           "description": "",
-          "$ref": "#/components/schemas/Bytes"
+          "$ref": "#/components/schemas/BlockRLP"
         }
       }
     },
@@ -1935,6 +1956,26 @@
       }
     }
   ],
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   "components": {
     "schemas": {
       "CodeResponse": {
@@ -2009,6 +2050,15 @@
           "$ref": "#/components/schemas/ProofNode"
         }
       },
+      "StorageEntry": {
+        "description": ""  
+      },
+      "StorageMap": {
+        "description": ""
+      },
+      "StorageRange": {
+        "description": ""
+      },
       "PowHash": {
         "description": "Current block header PoW hash.",
         "$ref": "#/components/schemas/DataWord"
@@ -2036,6 +2086,10 @@
       "BlockNumber": {
         "type": "string",
         "description": "The hex representation of the block's height"
+      },
+      "BlockRLP": {
+        "type": "string",
+        "description": "The hex representation of the block's RLP"
       },
       "BlockNumberTag": {
         "type": "string",
