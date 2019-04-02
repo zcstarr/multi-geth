@@ -1187,7 +1187,8 @@
         }
       ],
       "result": {
-        "name": "bad block traced to file",
+        "name": "result",
+        "description": "bad block traced to file",
         "schema": {}
       }
     },
@@ -1265,7 +1266,7 @@
     },
     {
       "name": "debug_traceBlock",
-      "description": "The traceBlock method will return a full stack trace of all invoked opcodes of all transaction that were included included in this block",
+      "description": "Will return a full stack trace of all invoked opcodes of all transaction that were included included in this block. \nNote: the parent of this block must be present or it will fail",
       "params": [
         {
           "name": "",
@@ -1276,7 +1277,7 @@
         }
       ],
       "result": {
-        "name": "",
+        "name": "stackTrace",
         "schema": {
           "description": "",
           "$ref": "#/components/schemas/BlockRLP"
@@ -1285,77 +1286,51 @@
     },
     {
       "name": "debug_traceBlockByHash",
-      "description": "",
+      "description": "Similar to `debug_traceBlock`, accepts a block hash and will replay the block that is already present in the database.",
       "params": [
         {
-          "name": "",
-          "description": "",
+          "name": "blockHash",
+          "description": "target block hash",
           "schema": {
-            "type": "",
-            "format": ""
+            "$ref": "#/components/schemas/BlockHash"
           }
         }
       ],
       "result": {
-        "name": "",
+        "name": "trace",
         "schema": {
-          "description": "",
           "$ref": "#/components/schemas/Bytes"
         }
       }
     },
     {
       "name": "debug_traceBlockByNumber",
-      "description": "",
+      "description": "Similar to debug_traceBlock, accepts a block number and will replay the block that is already present in the database.",
       "params": [
         {
-          "name": "",
-          "description": "",
+          "name": "blockNumber",
+          "description": "target block number",
           "schema": {
-            "type": "",
-            "format": ""
+            "$ref": "#/components/schemas/BlockNumber"
           }
         }
       ],
       "result": {
-        "name": "",
+        "name": "trace",
         "schema": {
-          "description": "",
           "$ref": "#/components/schemas/Bytes"
         }
       }
     },
     {
       "name": "debug_traceBlockFromFile",
-      "description": "",
+      "description": "Similar to `debug_traceBlock`, accepts a file containing the RLP of the block",
       "params": [
         {
-          "name": "",
-          "description": "",
+          "name": "filename",
+          "description": "file containing with block's RLP",
           "schema": {
-            "type": "",
-            "format": ""
-          }
-        }
-      ],
-      "result": {
-        "name": "",
-        "schema": {
-          "description": "",
-          "$ref": "#/components/schemas/Bytes"
-        }
-      }
-    },
-    {
-      "name": "debug_traceChain",
-      "description": "",
-      "params": [
-        {
-          "name": "",
-          "description": "",
-          "schema": {
-            "type": "",
-            "format": ""
+            "type": "string"
           }
         }
       ],
@@ -1369,7 +1344,7 @@
     },
     {
       "name": "debug_traceTransaction",
-      "description": "",
+      "description": "The traceTransaction debugging method will attempt to run the transaction in the exact same manner as it was executed on the network.\n It will replay any transaction that may have been executed prior to this one before it will finally attempt to execute the transaction that corresponds to the given hash.",
       "params": [
         {
           "name": "",
