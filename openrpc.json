@@ -1890,43 +1890,23 @@
     },
     {
       "name": "txpool_inspect",
-      "description": "",
-      "params": [
-        {
-          "name": "",
-          "description": "",
-          "schema": {
-            "type": "",
-            "format": ""
-          }
-        }
-      ],
+      "description": "The inspect inspection property can be queried to list a textual summary of all the transactions currently pending for inclusion in the next block(s),\n as well as the ones that are being scheduled for future execution only.",
+      "params": [],
       "result": {
-        "name": "",
+        "name": "inspection",
         "schema": {
-          "description": "",
-          "$ref": "#/components/schemas/Bytes"
+          "$ref": "#/components/schemas/TxPoolInspection"
         }
       }
     },
     {
       "name": "txpool_status",
-      "description": "",
-      "params": [
-        {
-          "name": "",
-          "description": "",
-          "schema": {
-            "type": "",
-            "format": ""
-          }
-        }
-      ],
+      "description": "The status inspection property can be queried for the number of transactions currently pending for inclusion in the next block(s),\n as well as the ones that are being scheduled for future execution only.",
+      "params": [],
       "result": {
-        "name": "",
+        "name": "status",
         "schema": {
-          "description": "",
-          "$ref": "#/components/schemas/Bytes"
+          "$ref": "#/components/schemas/TxPoolStatus"
         }
       }
     }
@@ -2041,6 +2021,96 @@
       "SeedHash": {
         "description": "The seed hash used for the DAG.",
         "$ref": "#/components/schemas/DataWord"
+      },
+      "TxPoolInspection": {
+        "description": "Transaction pool inspection is an object with two fields pending and queued.\n Each of these fields are associative arrays,\n in which each entry maps an origin-address to a batch of scheduled transactions.\n These batches themselves are maps associating nonces with transactions summary strings.",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "pending": {
+              "description": "Pending transactions list",
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/TxBatch"
+                }
+              }
+            },
+            "queued": {
+              "description": "Queued transactions list",
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/TxBatch"
+                }
+              }
+            }
+          }
+      },
+      "TxBatch": {
+        "description": "Maps an origin-address to a batch of scheduled transactions",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "address": {
+              "description": "Account address to which batch of transactions relates",
+              "schema": {
+                "$ref": "#/components/schemas/Address"
+              }
+            },
+            "batch": {
+              "description": "Batch of transactions for current address",
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/TxBatchEntry"
+                }
+              }
+            }
+          }
+        }
+      },
+      "TxBatchEntry": {
+        "description": "Map associating nonces with transactions summary strings.",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "nonce": {
+              "description": "nonce",
+              "schema": {
+                "type": "integer",
+                "format": "int64"
+              }
+            },
+            "tx": {
+              "description": "Transaction summary strings",
+              "schema": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "TxPoolStatus": {
+        "description": " Transaction pool status. An object with two fields `pending` and `queued`, \neach of which is a counter representing the number of transactions in that particular state",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "pending": {
+              "description": "Pending transactions count",
+              "schema": {
+                "type": "integer",
+                "format": "int64"
+              }
+            },
+            "queued": {
+              "description": "Queued transactions count",
+              "schema": {
+                "type": "integer",
+                "format": "int64"
+              }
+            }
+          }
       },
       "MixHash": {
         "description": "The mix digest.",
