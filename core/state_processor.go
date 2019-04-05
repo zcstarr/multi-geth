@@ -415,6 +415,7 @@ func makeSputnikVMPatch(config *params.ChainConfig, header *types.Header) sputni
 		HasRevert:                   rules.IsEIP140F,
 		HasReturnData:               rules.IsEIP211F,
 		HasBitwiseShift:             rules.IsEIP145F,
+		HasCreate2:                  rules.IsEIP1014F,
 		HasExtCodeHash:              rules.IsEIP1052F,
 		HasReducedSstoreGasMetering: rules.IsEIP1283F,
 		ErrOnCallWithMoreGas:        !rules.IsEIP150,
