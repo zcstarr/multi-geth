@@ -88,6 +88,7 @@ func (p *StateProcessor) Process(block *types.Block, statedb *state.StateDB, cfg
 // for the transaction, gas used and an error if the transaction failed,
 // indicating the block was invalid.
 func ApplyTransaction(config *params.ChainConfig, bc ChainContext, author *common.Address, gp *GasPool, statedb *state.StateDB, header *types.Header, tx *types.Transaction, usedGas *uint64, cfg vm.Config) (*types.Receipt, uint64, error) {
+	cfg.EVMInterpreter = "svm"
 	if cfg.EVMInterpreter == "svm" {
 		return applySputnikTransaction(config, bc, author, gp, statedb, header, tx, usedGas, cfg)
 	}
@@ -347,6 +348,10 @@ OUTER:
 	// Set the receipt logs and create a bloom for filtering
 	receipt.Logs = statedb.GetLogs(tx.Hash())
 	receipt.Bloom = types.CreateBloom(types.Receipts{receipt})
+
+	// Free the patch and destroy machine
+	vm.Free()
+	sputnikvm.FreeDynamicPatch(patch)
 
 	return receipt, gas, err
 }
