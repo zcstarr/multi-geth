@@ -16,13 +16,6 @@
   ],
   "methods": [
     {
-      "links": [
-        {
-          "name": "my name",
-          "description": "foobar",
-          "server": {}
-        }
-      ],
       "name": "eth_getBlockByHash",
       "summary": "Gets a block for a given hash",
       "params": [
@@ -72,7 +65,28 @@
         "schema": {
           "$ref": "#/components/schemas/Block"
         }
-      }
+      },
+      "examples": [
+        {
+          "name": "genesisBlockByNumber",
+          "description": "",
+
+          "params": [
+            {
+              "name": "genesisBlockNumber",
+              "value": "0x0"
+            },
+            {
+              "name": "includeTransactions",
+              "value": false
+            }
+          ],
+          "result": {
+            "name": "genesisBlockResult",
+            "value": {}
+          }
+        }
+      ]
     },
     {
       "name": "eth_blockNumber",
@@ -957,11 +971,7 @@
       "description": "Retrieves the state that corresponds to the block number and returns a list of accounts (including storage and code)",
       "params": [
         {
-          "name": "blockNumber",
-          "schema": {
-            "type": "integer",
-            "format": "int64"
-          }
+          "$ref": "#/components/contentDescriptors/BlockNumber"
         }
       ],
       "result": {
@@ -1111,6 +1121,7 @@
           "description": "number of target block",
           "schema": {
             "type": "integer",
+            "minimum": 0,
             "format": "int64"
           }
         }
@@ -1213,8 +1224,30 @@
           }
         },
         {
-          "name": "txIndex",
-          "description": "transaction index",
+          "name": "txBegin",
+          "description": "transaction begin index",
+          "schema": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        {
+          "name": "contractAddress",
+          "description": "address of contract",
+          "schema": {
+            "$ref": "#/components/schemas/Address"
+          }
+        },
+        {
+          "name": "keyStart",
+          "description": "bytes",
+          "schema": {
+            "$ref": "#/components/schemas/Bytes"
+          }
+        },
+        {
+          "name": "maxResult",
+          "description": "max results to return",
           "schema": {
             "type": "integer",
             "format": "int64"
@@ -1551,6 +1584,9 @@
           "schema": {
             "type": "string"
           }
+        },
+        {
+          "$ref": "#/components/contentDescriptors/Passphrase"
         }
       ],
       "result": {
@@ -1728,7 +1764,7 @@
         {
           "name": "duration",
           "schema": {
-            "type": "string"
+            "type": "integer"
           }
         }
       ],
@@ -1960,10 +1996,12 @@
       },
       "BlockHash": {
         "type": "string",
+        "pattern": "^0x[a-fA-F\\d]{64}$",
         "description": "The hex representation of the Keccak 256 of the RLP encoded block"
       },
       "BlockNumber": {
         "type": "string",
+        "pattern": "^0x[a-fA-F\\d]$",
         "description": "The hex representation of the block's height"
       },
       "BlockRLP": {
@@ -2385,7 +2423,7 @@
       "Keccak": {
         "type": "string",
         "description": "Hex representation of a Keccak 256 hash",
-        "pattern": "^0x[a-fA-F\\d]+$"
+        "pattern": "^0x[a-fA-F\\d]{64}$"
       },
       "Nonce": {
         "description": "A number only to be used once",
@@ -2397,11 +2435,12 @@
       },
       "Integer": {
         "type": "string",
+        "pattern": "^0x[a-fA-F\\d]+$",
         "description": "Hex representation of the integer"
       },
       "Address": {
         "type": "string",
-        "pattern": "^0x[a-fA-F\\d]+$"
+        "pattern": "^0x[a-fA-F\\d]{40}$"
       },
       "Position": {
         "type": "string",
@@ -2415,6 +2454,7 @@
       },
       "Bytes": {
         "type": "string",
+        "pattern": "^0x[a-fA-F\\d]+$",
         "description": "Hex representation of a variable length byte array"
       }
     },
