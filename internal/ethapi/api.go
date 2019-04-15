@@ -21,7 +21,6 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"io/ioutil"
 	"math/big"
 	"strings"
 	"time"
@@ -100,17 +99,6 @@ func (s *PublicEthereumAPI) Syncing() (interface{}, error) {
 // PublicTxPoolAPI offers and API for the transaction pool. It only operates on data that is non confidential.
 type PublicTxPoolAPI struct {
 	b Backend
-}
-
-// Discover returns the OpenRPC document to allow developers and machines to discover capabilities
-func Discover() string {
-	b, err := ioutil.ReadFile("../../../openrpc.json") // just pass the file name
-	if err != nil {
-		fmt.Print(err)
-	}
-
-	openrpcJSON := string(b) // convert content to a 'string'
-	return openrpcJSON
 }
 
 // NewPublicTxPoolAPI creates a new tx pool service that gives information about the transaction pool.
