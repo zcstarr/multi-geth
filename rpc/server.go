@@ -19,11 +19,11 @@ package rpc
 import (
 	"context"
 	"io"
-	"io/ioutil"
 	"sync/atomic"
 
 	mapset "github.com/deckarep/golang-set"
 	"github.com/ethereum/go-ethereum/log"
+	"github.com/gobuffalo/packr"
 )
 
 const MetadataApi = "rpc"
@@ -48,6 +48,9 @@ type Server struct {
 	run      int32
 	codecs   mapset.Set
 }
+
+// set up a new box by giving it a (relative) path to a folder on disk:
+var staticRes = packr.NewBox("./static")
 
 // NewServer creates a new server instance with no registered handlers.
 func NewServer() *Server {
@@ -148,21 +151,10 @@ func (s *RPCService) Modules() map[string]string {
 }
 
 func (s *RPCService) Discover() string {
-	for _, s := range s.server.services.services {
-		log.Info("server services services", "service", s)
-
-	}
-	fos, err := ioutil.ReadDir(".")
-	if err != nil {
-		log.Crit("error", "error", err)
-	}
-	for _, f := range fos {
-		log.Info("file", "f", f)
-	}
-	// b, err := ioutil.ReadFile("../openrpc.json")
-	b, err := ioutil.ReadFile("openrpc.json")
+	// Get the []byte representation of a file, or an error if it doesn't exist:
+	ss, err := staticRes.FindString("openrpc.json")
 	if err != nil {
 		log.Crit("read OpenRPC file error", "error", err)
 	}
-	return string(b)
+	return ss
 }
