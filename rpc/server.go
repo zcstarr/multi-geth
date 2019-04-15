@@ -151,7 +151,7 @@ func (s *RPCService) Modules() map[string]string {
 }
 
 func (s *RPCService) Discover() string {
-	// Get the []byte representation of a file, or an error if it doesn't exist:
+	// Get the string representation of a file, or an error if it doesn't exist:
 	ss, err := staticRes.FindString("openrpc.json")
 	if err != nil {
 		log.Crit("read OpenRPC file error", "error", err)
