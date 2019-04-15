@@ -19,6 +19,7 @@ package rpc
 import (
 	"context"
 	"io"
+	"io/ioutil"
 	"sync/atomic"
 
 	mapset "github.com/deckarep/golang-set"
@@ -144,4 +145,24 @@ func (s *RPCService) Modules() map[string]string {
 		modules[name] = "1.0"
 	}
 	return modules
+}
+
+func (s *RPCService) Discover() string {
+	for _, s := range s.server.services.services {
+		log.Info("server services services", "service", s)
+
+	}
+	fos, err := ioutil.ReadDir(".")
+	if err != nil {
+		log.Crit("error", "error", err)
+	}
+	for _, f := range fos {
+		log.Info("file", "f", f)
+	}
+	// b, err := ioutil.ReadFile("../openrpc.json")
+	b, err := ioutil.ReadFile("openrpc.json")
+	if err != nil {
+		log.Crit("read OpenRPC file error", "error", err)
+	}
+	return string(b)
 }
