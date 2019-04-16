@@ -557,7 +557,7 @@
       }
     },
     {
-      "name": "eth_account",
+      "name": "eth_accounts",
       "summary": "Returns a list of accounts owned by the client",
       "params": [],
       "result": {
@@ -952,8 +952,8 @@
         {
           "name": "blockNumber",
           "schema": {
-            "type": "integer",
-            "format": "int64"
+            "type": "string",
+            "pattern": "^0x[a-fA-F\\d]+$"
           }
         }
       ],
@@ -1103,8 +1103,7 @@
           "name": "blockNumber",
           "description": "number of target block",
           "schema": {
-            "type": "integer",
-            "format": "int64"
+            "$ref": "#/components/schemas/BlockNumber"
           }
         }
       ],
@@ -1122,8 +1121,7 @@
           "name": "blockNumber",
           "description": "number of target block",
           "schema": {
-            "type": "integer",
-            "format": "int64"
+            "$ref": "#/components/schemas/BlockNumber"
           }
         }
       ],
@@ -1142,8 +1140,7 @@
           "name": "blockNumber",
           "description": "number of target block",
           "schema": {
-            "type": "integer",
-            "format": "int64"
+            "$ref": "#/components/schemas/BlockNumber"
           }
         }
       ],
@@ -1721,7 +1718,7 @@
         {
           "name": "duration",
           "schema": {
-            "type": "string"
+            "$ref": "#/components/schemas/Integer"
           }
         }
       ],
@@ -1953,10 +1950,12 @@
       },
       "BlockHash": {
         "type": "string",
+        "pattern": "^0x[a-fA-F\\d]{64}$",
         "description": "The hex representation of the Keccak 256 of the RLP encoded block"
       },
       "BlockNumber": {
         "type": "string",
+        "pattern": "^0x[a-fA-F\\d]+$",
         "description": "The hex representation of the block's height"
       },
       "BlockRLP": {
@@ -2378,10 +2377,11 @@
       "Keccak": {
         "type": "string",
         "description": "Hex representation of a Keccak 256 hash",
-        "pattern": "^0x[a-fA-F\\d]+$"
+        "pattern": "^0x[a-fA-F\\d]{64}$"
       },
       "Nonce": {
         "description": "A number only to be used once",
+        "pattern": "^0x[a-fA-F\\d]{16}$",
         "type": "string"
       },
       "Null": {
@@ -2390,11 +2390,12 @@
       },
       "Integer": {
         "type": "string",
+        "pattern": "^0x[a-fA-F\\d]+$",
         "description": "Hex representation of the integer"
       },
       "Address": {
         "type": "string",
-        "pattern": "^0x[a-fA-F\\d]+$"
+        "pattern": "^0x[a-fA-F\\d]{40}$"
       },
       "Position": {
         "type": "string",
@@ -2404,11 +2405,12 @@
       "DataWord": {
         "type": "string",
         "description": "Hex representation of a 256 bit unit of data",
-        "pattern": "^0x[a-fA-F\\d]+$"
+        "pattern": "^0x[a-fA-F\\d]{64}$"
       },
       "Bytes": {
         "type": "string",
-        "description": "Hex representation of a variable length byte array"
+        "description": "Hex representation of a variable length byte array",
+        "pattern": "^0x[a-fA-F\\d]+$"
       }
     },
     "contentDescriptors": {
