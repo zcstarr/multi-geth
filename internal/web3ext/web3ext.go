@@ -628,7 +628,7 @@ web3._extend({
 	methods: [
 		new web3._extend.Method({
 			name: 'discover',
-			call: 'rpc_discover',
+			call: 'rpc.discover',
 			params: 0
 		}),
 	],
