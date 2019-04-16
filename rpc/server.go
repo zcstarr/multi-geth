@@ -18,13 +18,13 @@ package rpc
 
 import (
 	"context"
+	"encoding/json"
 	"io"
 	"sync/atomic"
 
 	mapset "github.com/deckarep/golang-set"
 	"github.com/ethereum/go-ethereum/log"
 	"github.com/gobuffalo/packr/v2"
-	"github.com/tidwall/gjson"
 )
 
 const MetadataApi = "rpc"
@@ -152,23 +152,18 @@ func (s *RPCService) Modules() map[string]string {
 }
 
 func (s *RPCService) Discover() map[string]interface{} {
-	log.Info("handling rpc.discover")
+
 	// Get the string representation of a file, or an error if it doesn't exist:
-	ss, err := staticRes.FindString("openrpc.json")
+	ss, err := staticRes.Find("openrpc.json")
 	if err != nil {
 		log.Crit("read OpenRPC file error", "error", err)
 	}
 
-	if !gjson.Valid(ss) {
-		log.Error("invalid json")
-		return nil
+	var m map[string]interface{}
+	err = json.Unmarshal(ss, &m)
+	if err != nil {
+		log.Crit("openrpc json", "unmarshall error", err)
 	}
 
-	ma, ok := gjson.Parse(ss).Value().(map[string]interface{})
-	if !ok {
-		log.Error("notok", "")
-		return nil
-	}
-
-	return ma
+	return m
 }

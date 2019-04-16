@@ -659,24 +659,6 @@
 			"revisionTime": "2018-11-28T10:09:59Z"
 		},
 		{
-			"checksumSHA1": "zX/h3nDEkaMwoUbsKuINlws8vJ4=",
-			"path": "github.com/tidwall/gjson",
-			"revision": "fb8e539484c9fb2df9f472bc0e3949a74c256f95",
-			"revisionTime": "2019-04-05T18:08:30Z"
-		},
-		{
-			"checksumSHA1": "8jl+NYRKijAXkUwjpy89Q60q00A=",
-			"path": "github.com/tidwall/match",
-			"revision": "33827db735fff6510490d69a8622612558a557ed",
-			"revisionTime": "2018-12-10T10:08:38Z"
-		},
-		{
-			"checksumSHA1": "ijmGS83faLA6LVpdeGkyRhqvQgM=",
-			"path": "github.com/tidwall/pretty",
-			"revision": "1166b9ac2b65e46a43d8618d30d1554f4652d49b",
-			"revisionTime": "2019-03-25T15:38:08Z"
-		},
-		{
 			"checksumSHA1": "nD6S4KB0S+YHxVMDDE+w3PyXaMk=",
 			"path": "github.com/uber/jaeger-client-go",
 			"revision": "f7e0d4744fa6d5287c53b8ac8d4f83089ce07ce8",
