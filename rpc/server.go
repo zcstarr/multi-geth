@@ -23,7 +23,8 @@ import (
 
 	mapset "github.com/deckarep/golang-set"
 	"github.com/ethereum/go-ethereum/log"
-	"github.com/gobuffalo/packr"
+	"github.com/gobuffalo/packr/v2"
+	"github.com/tidwall/gjson"
 )
 
 const MetadataApi = "rpc"
@@ -50,7 +51,7 @@ type Server struct {
 }
 
 // set up a new box by giving it a (relative) path to a folder on disk:
-var staticRes = packr.NewBox("./static")
+var staticRes = packr.New("static resources", "./static")
 
 // NewServer creates a new server instance with no registered handlers.
 func NewServer() *Server {
@@ -150,11 +151,24 @@ func (s *RPCService) Modules() map[string]string {
 	return modules
 }
 
-func (s *RPCService) Discover() string {
+func (s *RPCService) Discover() map[string]interface{} {
+	log.Info("handling rpc.discover")
 	// Get the string representation of a file, or an error if it doesn't exist:
 	ss, err := staticRes.FindString("openrpc.json")
 	if err != nil {
 		log.Crit("read OpenRPC file error", "error", err)
 	}
-	return ss
+
+	if !gjson.Valid(ss) {
+		log.Error("invalid json")
+		return nil
+	}
+
+	ma, ok := gjson.Parse(ss).Value().(map[string]interface{})
+	if !ok {
+		log.Error("notok", "")
+		return nil
+	}
+
+	return ma
 }
