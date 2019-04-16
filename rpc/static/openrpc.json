@@ -16,13 +16,6 @@
   ],
   "methods": [
     {
-      "links": [
-        {
-          "name": "my name",
-          "description": "foobar",
-          "server": {}
-        }
-      ],
       "name": "eth_getBlockByHash",
       "summary": "Gets a block for a given hash",
       "params": [
