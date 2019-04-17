@@ -802,85 +802,6 @@
       }
     },
     {
-      "name": "eth_getCompilers",
-      "summary": "Returns a list of available compilers in the client.",
-      "params": [],
-      "result": {
-        "name": "compilers",
-        "schema": {
-          "type": "array",
-          "description": "Array of available compilers.",
-          "items": {
-            "description": "Name of an available compiler",
-            "type": "string"
-          }
-        }
-      }
-    },
-    {
-      "name": "eth_compileSolidity",
-      "summary": "Returns compiled solidity code.",
-      "params": [
-        {
-          "name": "code",
-          "required": true,
-          "schema": {
-            "type": "string",
-            "description": "The Solidity code string (no new-lines)."
-          }
-        }
-      ],
-      "result": {
-        "name": "codeResponse",
-        "schema": {
-          "type": "object",
-          "$ref": "#/components/schemas/CodeResponse"
-        }
-      }
-    },
-    {
-      "name": "eth_compileLLL",
-      "summary": "Returns compiled LLL code.",
-      "params": [
-        {
-          "name": "code",
-          "required": true,
-          "schema": {
-            "type": "string",
-            "description": "The LLL code string (no new-lines)."
-          }
-        }
-      ],
-      "result": {
-        "name": "copmiledCode",
-        "schema": {
-          "description": "The compiled Byte code",
-          "$ref": "#/components/schemas/Bytes"
-        }
-      }
-    },
-    {
-      "name": "eth_compileSerpent",
-      "summary": "Returns compiled Serpent code.",
-      "params": [
-        {
-          "name": "code",
-          "required": true,
-          "schema": {
-            "type": "string",
-            "description": "The Serpent code string (no new-lines)."
-          }
-        }
-      ],
-      "result": {
-        "name": "compiledCode",
-        "schema": {
-          "description": "The compiled Byte code",
-          "$ref": "#/components/schemas/Bytes"
-        }
-      }
-    },
-    {
       "name": "admin_exportChain",
       "description": "Exports a blockchain into the specified file, appending to the file if data already exists in it",
       "params": [
@@ -1630,7 +1551,8 @@
           "name": "url",
           "description": "hd path for hardware wallet",
           "schema": {
-            "type": "string"
+            "type": "string",
+            "format": "uri"
           }
         },
         {
@@ -1718,7 +1640,7 @@
         {
           "name": "duration",
           "schema": {
-            "$ref": "#/components/schemas/Integer"
+            "type": "integer"
           }
         }
       ],
