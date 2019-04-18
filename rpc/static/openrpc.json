@@ -733,6 +733,9 @@
       "params": [
         {
           "$ref": "#/components/contentDescriptors/Transaction"
+        },
+        {
+          "$ref": "#/components/contentDescriptors/BlockNumber"
         }
       ],
       "result": {
@@ -909,7 +912,7 @@
           "description": "number of target block",
           "schema": {
             "type": "integer",
-            "format": "int64"
+            "minimum": 0
           }
         }
       ],
@@ -1042,7 +1045,8 @@
           "name": "blockNumber",
           "description": "number of target block",
           "schema": {
-            "$ref": "#/components/schemas/BlockNumber"
+            "type": "integer",
+            "minimum": 0
           }
         }
       ],
@@ -1127,8 +1131,26 @@
           "name": "txIndex",
           "description": "transaction index",
           "schema": {
-            "type": "integer",
-            "format": "int64"
+            "type": "integer"
+          }
+        },
+        {
+          "$ref": "#/components/contentDescriptors/Address"
+        },
+        {
+          "name": "startKey",
+          "description": "Start Key",
+          "schema": {
+            "type": "string",
+            "pattern": "^0x[a-fA-F\\d]{40}$"
+          }
+        },
+        {
+          "name": "limit",
+          "summary": "number of storage entries",
+          "description": "Number of storage entries to return.",
+          "schema": {
+            "type": "integer"
           }
         }
       ],
@@ -1443,13 +1465,13 @@
       "params": [
         {
           "$ref": "#/components/contentDescriptors/Message"
+        },
+        {
+          "$ref": "#/components/contentDescriptors/Signature"
         }
       ],
       "result": {
-        "name": "signature",
-        "schema": {
-          "$ref": "#/components/schemas/Bytes"
-        }
+        "$ref": "#/components/contentDescriptors/Address"
       }
     },
     {
@@ -1460,8 +1482,12 @@
           "name": "keydata",
           "description": "unencrypted private key",
           "schema": {
-            "type": "string"
+            "type": "string",
+            "pattern": "^0x[a-fA-F\\d]+$"
           }
+        },
+        {
+          "$ref": "#/components/contentDescriptors/Passphrase"
         }
       ],
       "result": {
@@ -1568,12 +1594,32 @@
     },
     {
       "name": "personal_sign",
-      "description": "",
-      "params": [],
+      "description": "Signs data using a specific account. This data is before UTF-8 HEX decoded and enveloped as follows: `'\\x19Ethereum Signed Message:\n' + message.length + message`.",
+      "params": [
+        {
+          "name": "message",
+          "required": true,
+          "description": "The message to sign",
+          "schema": {
+            "$ref": "#/components/schemas/Bytes"
+          }
+        },
+        {
+          "name": "address",
+          "required": true,
+          "description": "The address of the account who's signature to use.",
+          "schema": {
+            "$ref": "#/components/schemas/Address"
+          }
+        },
+        {
+          "$ref": "#/components/contentDescriptors/Passphrase"
+        }
+      ],
       "result": {
-        "name": "",
+        "name": "signatureData",
         "schema": {
-          "description": "",
+          "description": "The signature data.",
           "$ref": "#/components/schemas/Bytes"
         }
       }
@@ -1640,7 +1686,8 @@
         {
           "name": "duration",
           "schema": {
-            "type": "integer"
+            "type": "integer",
+            "minimum": 0
           }
         }
       ],
@@ -2332,10 +2379,19 @@
       "Bytes": {
         "type": "string",
         "description": "Hex representation of a variable length byte array",
-        "pattern": "^0x[a-fA-F\\d]+$"
+        "pattern": "0x^([A-Fa-f0-9]{2}){8,9}$"
       }
     },
     "contentDescriptors": {
+      "Signature": {
+        "name": "signature",
+        "summary": "The signature.",
+        "required": true,
+        "schema": {
+          "$ref": "#/components/schemas/Bytes",
+          "pattern": "0x^([A-Fa-f0-9]{2}){65}$"
+        }
+      },
       "GasPrice": {
         "name": "gasPrice",
         "required": true,
@@ -2357,6 +2413,11 @@
         "name": "transaction",
         "schema": {
           "type": "object",
+          "required": [
+            "gas",
+            "gasPrice",
+            "nonce"
+          ],
           "properties": {
             "from": {
               "description": "Address of the sender",
@@ -2367,12 +2428,12 @@
               "$ref": "#/components/schemas/Address"
             },
             "gas": {
-              "type": "string",
-              "description": "The gas limit provided by the sender in Wei. default 90000"
+              "description": "The gas limit provided by the sender in Wei. default 90000",
+              "$ref": "#/components/schemas/Integer"
             },
             "gasPrice": {
-              "type": "string",
-              "description": "The gas price willing to be paid by the sender in Wei"
+              "description": "The gas price willing to be paid by the sender in Wei",
+              "$ref": "#/components/schemas/Integer"
             },
             "value": {
               "description": "Value of Ether being transferred in Wei",
